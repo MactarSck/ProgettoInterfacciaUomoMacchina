@@ -1,4 +1,4 @@
 <Solution>
-  <Project Path="ProgettoIUM.Web/ProgettoIUM.Web.csproj" />
-  <Project Path="ProgettoIUM/ProgettoIUM.csproj" />
+  <Project Path="src/ProgettoIUM.Web/ProgettoIUM.Web.csproj" />
+  <Project Path="src/ProgettoIUM/ProgettoIUM.csproj" />
 </Solution>
