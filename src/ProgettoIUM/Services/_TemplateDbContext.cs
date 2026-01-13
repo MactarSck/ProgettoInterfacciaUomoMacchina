@@ -16,5 +16,9 @@ namespace ProgettoIUM.Services
         }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<Comunicazione> Comunicazioni { get; set; }
+        public DbSet<StoricoStato> StoricoStati { get; set; }
+         public DbSet<Segnalazione> Segnalazioni { get; set; }
+
     }
 }
