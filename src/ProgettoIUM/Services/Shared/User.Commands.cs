@@ -33,7 +33,6 @@ namespace ProgettoIUM.Services.Shared
 
             user.FirstName = cmd.FirstName;
             user.LastName = cmd.LastName;
-            user.NickName = cmd.NickName;
 
             await _dbContext.SaveChangesAsync();
 

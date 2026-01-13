@@ -143,7 +143,7 @@ namespace ProgettoIUM.Services.Shared
                     Email = x.Email,
                     FirstName = x.FirstName,
                     LastName = x.LastName,
-                    NickName = x.NickName
+                    
                 })
                 .FirstOrDefaultAsync();
         }
@@ -169,7 +169,7 @@ namespace ProgettoIUM.Services.Shared
                 Email = user.Email,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                NickName = user.NickName
+               
             };
         }
     }

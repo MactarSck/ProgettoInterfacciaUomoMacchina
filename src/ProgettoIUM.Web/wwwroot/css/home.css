@@ -1,0 +1,68 @@
+﻿.card-nuova {
+    background-color: #CFE2FF;
+    border: none;
+    border-radius: 32px;
+    transition: transform 0.2s;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+
+.card-consulta {
+    background-color: #FFFFFF;
+    border: none;
+    border-radius: 32px;
+    transition: transform 0.2s;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.card-nuova, .card-consulta {
+    min-height: 560px; 
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.spacer-bottom {
+    margin-top: auto;
+    width: 100%;
+}
+
+    .card-nuova:hover, .card-consulta:hover {
+        transform: translateY(-5px);
+    }
+
+.btn-seckure {
+    display: block;
+    width: 100%;
+    padding: 15px 0; 
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    border: none;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    text-align: center;
+}
+
+
+.btn-custom-blue {
+    background-color: #67A6FF;
+    color: white;
+    border-radius: 10px;
+    font-weight: bold;
+    border: none;
+}
+
+.btn-custom-grey {
+    background-color: #8c8c8c;
+    color: white;
+    border-radius: 10px;
+    font-weight: bold;
+    border: none;
+}
+
+.icon-box {
+    font-size: 5rem;
+    color: #333;
+    margin-bottom: 20px;
+}

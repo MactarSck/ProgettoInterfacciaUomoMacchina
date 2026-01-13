@@ -22,7 +22,7 @@ namespace ProgettoIUM.Infrastructure
                     Password = "M0Cuk9OsrcS/rTLGf5SY6DUPqU2rGc1wwV2IL88GVGo=", // SHA-256 of text "Prova"
                     FirstName = "Nome1",
                     LastName = "Cognome1",
-                    NickName = "Nickname1"
+                    
                 },
                 new User
                 {
@@ -31,7 +31,7 @@ namespace ProgettoIUM.Infrastructure
                     Password = "Uy6qvZV0iA2/drm4zACDLCCm7BE9aCKZVQ16bg80XiU=", // SHA-256 of text "Test"
                     FirstName = "Nome2",
                     LastName = "Cognome2",
-                    NickName = "Nickname2"
+                    
                 },
                 new User
                 {
@@ -40,7 +40,7 @@ namespace ProgettoIUM.Infrastructure
                     Password = "Uy6qvZV0iA2/drm4zACDLCCm7BE9aCKZVQ16bg80XiU=", // SHA-256 of text "Test"
                     FirstName = "Nome3",
                     LastName = "Cognome3",
-                    NickName = "Nickname3"
+                    
                 });
 
             context.SaveChanges();

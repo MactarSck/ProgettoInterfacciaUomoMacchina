@@ -1,0 +1,67 @@
+﻿
+@model ProgettoIUM.Web.Features.Home.HomeViewModel
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/home.css" asp-append-versione = "trueS"/>
+}
+
+<div class="container text-center mt-5">
+    <h1 class="fw-bold mb-3">La tua sicurezza è la nostra priorità</h1>
+    <p class="text-muted mb-5">Segnala illeciti in modo anonimo e protetto.</p>
+
+    <div class="row justify-content-center">
+        
+        <div class="col-md-4 m-3 p-5 card-nuova shadow">
+            <h2 class="fw-bold h4 mb-4">Nuova Segnalazione</h2>
+            
+            <div class="icon-box">
+                <i class="fa-regular fa-file-lines"></i> </div>
+            
+            <p class=" text-dark mb-4" style="line-height: 1.6;">
+                Invia una segnalazione da esaminare. <br />
+                Ti forniremo un codice univoco per continuare a seguire il caso. <br />
+                Conservalo con cura!
+            </p>
+            <div class="spacer-bottom">
+                <a asp-controller="Segnalazioni" asp-action="Nuova" class="btn-seckure btn-custom-blue ">
+                    INVIA SEGNALAZIONE
+                </a>
+
+            </div>
+            
+        </div>
+
+        <div class="col-md-4 m-3 p-5 card-consulta shadow">
+            <h2 class="fw-bold h4 mb-4">Consulta segnalazione Esistente</h2>
+            
+            <div class="icon-box">
+                <i class="fa-solid fa-magnifying-glass"></i> </div>
+            
+            <p class=" text-dark mb-4">
+                Usa il codice univoco della segnalazione per consultare stato o comunicare con operatore.
+            </p>
+
+            <input class="form-control border-2 text-center py-2 shadow-sm"
+                   placeholder="Codice univoco..." />
+
+            <form class="spacer-bottom">
+                
+
+                <button type="submit" class="btn-seckure btn-custom-grey w-100 py-3 shadow-sm">ACCEDI</button>
+
+
+            </form>
+
+          
+        </div>
+        
+    </div>
+</div>
+
+<div class="text-center mt-5">
+    <small class="text-muted">Manuel Ragazzini - Mactar Ibrahima Seck AA 2025/2026</small>
+</div>

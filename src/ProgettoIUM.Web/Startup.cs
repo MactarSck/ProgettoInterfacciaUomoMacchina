@@ -113,7 +113,7 @@ namespace ProgettoIUM.Web
                 endpoints.MapHub<ProgettoIUMHub>("/ProgettoIUMHub");
 
                 endpoints.MapAreaControllerRoute("Example", "Example", "Example/{controller=Users}/{action=Index}/{id?}");
-                endpoints.MapControllerRoute("default", "{controller=Login}/{action=Login}");
+                endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}");
             });
         }
     }
