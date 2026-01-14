@@ -68,9 +68,9 @@
            style="background-color: #adb5bd; border: none; border-radius: 12px; min-width: 250px;">
             MODIFICA DATI
         </a>
-        
     </div>
 </div>
+<<<<<<< HEAD
 @section scripts {
 
     <script>
@@ -93,3 +93,5 @@
 
 }
 
+=======
+>>>>>>> parent of fbec4d0 (Implementazione controllo interno pagina)
