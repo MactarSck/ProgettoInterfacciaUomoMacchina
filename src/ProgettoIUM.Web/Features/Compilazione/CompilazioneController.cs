@@ -28,5 +28,21 @@ namespace ProgettoIUM.Web.Features.Compilazione
             var model = new CompilazioneViewModel();
             return View("~/Features/Compilazione/Index.cshtml", model);
         }
+
+        [HttpPost("Conferma")]
+        public virtual IActionResult Conferma(CompilazioneViewModel model)
+        {
+
+           
+            return View("~/Features/Compilazione/Riepilogo.cshtml", model);
+        }
+
+        
+        [HttpPost("InviaDefinitivo")]
+        public virtual IActionResult InviaDefinitivo(CompilazioneViewModel model)
+        {
+            
+            return RedirectToAction("Successo");
+        }
     }
 }

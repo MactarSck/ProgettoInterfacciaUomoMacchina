@@ -23,8 +23,10 @@ namespace ProgettoIUM.Services.Shared
         public string Descrizione { get; set; }
         public string StatoAttuale { get; set; }
         public string Priorità { get; set; }
+        public string? NomeFile { get; set; } 
+        public string? PathFile { get; set; } 
 
-       
+
 
 
 

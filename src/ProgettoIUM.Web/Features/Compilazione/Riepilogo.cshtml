@@ -1,0 +1,72 @@
+﻿@model ProgettoIUM.Web.Features.Compilazione.CompilazioneViewModel
+
+<div class="container py-5">
+    <div class="text-center mb-4">
+        <h2 class="fw-bold">Riepilogo dati inseriti</h2>
+    </div>
+
+    <div class="card border-0 shadow-lg rounded-4 p-5" style="background-color: #f2f2f2;">
+        <h4 class="text-center fw-bold mb-4">Dati segnalazione</h4>
+
+        <div class="row mb-3">
+            <div class="col-sm-4 fw-bold text-end">Categoria Illecito:</div>
+            <div class="col-sm-8 text-start">@Model.Categoria</div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-sm-4 fw-bold text-end">Data e Ora:</div>
+            <div class="col-sm-8 text-start">@Model.DataInvio.ToString("yyyy/MM/dd HH:mm")</div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-sm-4 fw-bold text-end">Luogo:</div>
+            <div class="col-sm-8 text-start">@Model.Luogo</div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-sm-4 fw-bold text-end">Reparto:</div>
+            <div class="col-sm-8 text-start">@Model.Reparto</div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-sm-4 fw-bold text-end">Allegati:</div>
+            <div class="col-sm-8 text-start">
+                @if (Model.Allegato != null)
+                {
+                    <span class="text-primary fw-bold">
+                        <i class="fa-solid fa-paperclip me-1"></i> @Model.Allegato.FileName
+                    </span>
+                }
+                else
+                {
+                    <span class="text-muted italic">Nessun file selezionato</span>
+                }
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <p class="fw-bold mb-2">Descrizione accaduto:</p>
+            <p class="text-muted border p-3 rounded-3 bg-light" style="font-size: 0.95rem; line-height: 1.6;">
+                @Model.Descrizione
+            </p>
+        </div>
+    </div>
+
+    <div class="text-center mt-5 d-flex flex-column align-items-center gap-3">
+        <form asp-action="InviaDefinitivo" method="post" class="w-100">
+            <input type="hidden" asp-for="Categoria" />
+            <input type="hidden" asp-for="Luogo" />
+            <input type="hidden" asp-for="Reparto" />
+            <input type="hidden" asp-for="Descrizione" />
+
+            <button type="submit" class="btn btn-primary btn-lg px-5 shadow-sm"
+                    style="background-color: #74a2ff; border: none; border-radius: 12px; min-width: 250px;">
+                INVIA SEGNALAZIONE
+            </button>
+        </form>
+
+        <a href="javascript:history.back()" class="btn btn-secondary btn-lg px-5 shadow-sm"
+           style="background-color: #adb5bd; border: none; border-radius: 12px; min-width: 250px;">
+            MODIFICA DATI
+        </a>
+    </div>
+</div>
