@@ -1,0 +1,69 @@
+﻿
+@model ProgettoIUM.Web.Features.Compilazione.CompilazioneViewModel
+@{
+    ViewData["Title"] = "Compilazione";
+}
+
+<div class="container py-5">
+    <div class="d-flex align-items-center mb-4">
+        <h1 class="fw-bold h2">Compilazione Segnalazione</h1>
+        <a href="/" class="ms-auto btn btn-light rounded-circle shadow-sm">
+            <i class="fa-solid fa-arrow-left"></i>
+        </a>
+    </div>
+
+    <div class="card border-0 shadow-lg rounded-4 p-5" style="background-color: #f2f2f2;">
+        <form asp-action="Salva" method="post" enctype="multipart/form-data">
+            
+            <h5 class="text-center fw-bold mb-4 mt-2">INFORMAZIONI</h5>
+            
+            <div class="row g-4 mb-5">
+                <div class="col-md-6">
+                    <label class="small fw-bold mb-2">Categoria Illecito</label>
+                    <select asp-for="Categoria" class="form-select border-0 shadow-sm py-2 px-3">
+                        <option value="">Seleziona...</option>
+                        @foreach(var cat in Model.CategorieDisponibili) {
+                            <option value="@cat">@cat</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label class="small fw-bold mb-2">Data e Ora</label>
+                    <input type="datetime-local" asp-for="DataInvio" class="form-control border-0 shadow-sm py-2" />
+                </div>
+                <div class="col-md-6">
+                    <label class="small fw-bold mb-2">Luogo</label>
+                    <input type="text" asp-for="Luogo" placeholder="Longiano" class="form-control border-0 shadow-sm py-2" />
+                </div>
+                <div class="col-md-6">
+                    <label class="small fw-bold mb-2">Reparto</label>
+                    <input type="text" asp-for="Reparto" placeholder="HR" class="form-control border-0 shadow-sm py-2" />
+                </div>
+            </div>
+
+            <h5 class="text-center fw-bold mb-3">DESCRIZIONE ACCADUTO</h5>
+            <div class="mb-5">
+                <textarea asp-for="Descrizione" rows="6" class="form-control border-0 shadow-sm p-3" 
+                          placeholder="Lorem ipsum dolor sit amet..."></textarea>
+            </div>
+
+            <h5 class="text-center fw-bold mb-3">ALLEGATI</h5>
+            <div class="upload-area border border-2 border-dashed rounded-4 p-5 text-center mb-5 bg-white">
+                <i class="fa-solid fa-cloud-arrow-up fa-3x mb-3 text-muted"></i>
+                <p class="text-muted mb-3">Select a file or drag and drop here</p>
+                <button type="button" class="btn btn-outline-primary rounded-pill px-4">SELECT FILE</button>
+            </div>
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary btn-lg px-5 py-3 shadow-sm fw-bold" 
+                        style="border-radius: 12px; background-color: #618ccf; border: none; min-width: 300px;">
+                    CONFERMA SEGNALAZIONE
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="text-center mt-5 mb-4 text-muted small">
+    Manuel Ragazzini - Mactar Ibrahima Seck AA 2025/2026
+</div>

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using ProgettoIUM.Services;
 using ProgettoIUM.Services.Shared;
+using ProgettoIUM.Web.Features.Compilazione;
 using System;
 
 namespace ProgettoIUM.Web.Features.Home
@@ -35,5 +36,8 @@ namespace ProgettoIUM.Web.Features.Home
 
             return Redirect(Request.GetTypedHeaders().Referer.ToString());
         }
+
+
+        
     }
 }
