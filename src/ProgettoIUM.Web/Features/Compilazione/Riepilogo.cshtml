@@ -74,17 +74,16 @@
 @section scripts {
 
     <script>
-        // 1. Impedisce l'avviso se l'utente sta premendo "Conferma" o "Invia"
+     
         let isSubmitting = false;
         document.querySelector('form').onsubmit = function() {
             isSubmitting = true;
         };
 
-        // 2. Questo intercetta il tasto INDIETRO del browser, la CHIUSURA della scheda e il REFRESH
+      
         window.addEventListener('beforeunload', function (e) {
-            if (isSubmitting) return; // Se premo il tasto blu, esci senza alert
+            if (isSubmitting) return; 
 
-            // Messaggio standard (i browser moderni mostrano il loro messaggio predefinito)
             const msg = 'Dati non salvati. Sei sicuro di voler uscire?';
             e.preventDefault();
             e.returnValue = msg;
