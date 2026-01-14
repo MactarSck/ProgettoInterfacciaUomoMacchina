@@ -64,9 +64,33 @@
             </button>
         </form>
 
-        <a href="javascript:history.back()" class="btn btn-secondary btn-lg px-5 shadow-sm"
+        <a href="javascript:history.back()" class="btn btn-secondary btn-lg px-5 shadow-sm" onclick="isSubmitting = true;"
            style="background-color: #adb5bd; border: none; border-radius: 12px; min-width: 250px;">
             MODIFICA DATI
         </a>
+        
     </div>
 </div>
+@section scripts {
+
+    <script>
+        // 1. Impedisce l'avviso se l'utente sta premendo "Conferma" o "Invia"
+        let isSubmitting = false;
+        document.querySelector('form').onsubmit = function() {
+            isSubmitting = true;
+        };
+
+        // 2. Questo intercetta il tasto INDIETRO del browser, la CHIUSURA della scheda e il REFRESH
+        window.addEventListener('beforeunload', function (e) {
+            if (isSubmitting) return; // Se premo il tasto blu, esci senza alert
+
+            // Messaggio standard (i browser moderni mostrano il loro messaggio predefinito)
+            const msg = 'Dati non salvati. Sei sicuro di voler uscire?';
+            e.preventDefault();
+            e.returnValue = msg;
+            return msg;
+        });
+    </script>
+
+}
+
