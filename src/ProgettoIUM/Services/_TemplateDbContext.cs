@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProgettoIUM.Infrastructure;
 using ProgettoIUM.Services.Shared;
+using ProgettoIUM.Services.Shared.Segnalazione;
 
 namespace ProgettoIUM.Services
 {

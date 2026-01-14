@@ -30,9 +30,23 @@
 
                 <div class="d-flex align-items-center justify-content-end flex-grow-1 gap-3">
 
-                    <a asp-controller="Login" asp-action="Login" >
-                        <i class="fa-solid fa-shield-halved text-dark fs-4"></i>
-                    </a>
+                   <div class="d-flex align-items-center justify-content-end flex-grow-1 gap-3">
+    @if (identitaCorrente == null)
+    {
+        @* Mostra lo scudo se l'utente NON è loggato *@
+        <a asp-controller="Login" asp-action="Login" title="Login">
+            <i class="fa-solid fa-shield-halved text-dark fs-4"></i>
+        </a>
+    }
+    else
+    {
+        @* Mostra la porta se l'utente È loggato *@
+        @* Usiamo lo script per inviare il form POST specifico per la tua Action *@
+        <a href="javascript:void(0)" onclick="document.getElementById('POST_LogOut').submit()" title="@SharedLocalizer["Esci"]">
+            <i class="fa-solid fa-right-from-bracket text-danger fs-4"></i>
+        </a>
+    }
+</div>
                     
 
                     <ul class="nav navbar-nav onit-page-menu-user">

@@ -7,12 +7,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ProgettoIUM.Infrastructure;
+using ProgettoIUM.Services;
 using ProgettoIUM.Web.Infrastructure;
 using ProgettoIUM.Web.SignalR.Hubs;
+using System;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using ProgettoIUM.Services;
 
 namespace ProgettoIUM.Web
 {
@@ -30,6 +32,7 @@ namespace ProgettoIUM.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
+
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
 
             services.AddDbContext<ProgettoIUMDbContext>(options =>
@@ -79,8 +82,10 @@ namespace ProgettoIUM.Web
             Container.RegisterTypes(services);
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ProgettoIUMDbContext context)
         {
+            DataGenerator.InitializeUsers(context);
+            DataGenerator.InitializeSegnalazioni(context);
             // Configure the HTTP request pipeline.
             if (!env.IsDevelopment())
             {

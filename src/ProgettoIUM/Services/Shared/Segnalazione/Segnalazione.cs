@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProgettoIUM.Services.Shared
+namespace ProgettoIUM.Services.Shared.Segnalazione
 {
     public class Segnalazione
     {
@@ -25,6 +25,7 @@ namespace ProgettoIUM.Services.Shared
         public string Priorità { get; set; }
         public string? NomeFile { get; set; } 
         public string? PathFile { get; set; } 
+        public string? Esito { get; set; }
 
 
 
