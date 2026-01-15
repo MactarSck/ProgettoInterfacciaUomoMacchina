@@ -49,6 +49,7 @@ namespace ProgettoIUM.Services.Shared
         public string? NomeFile { get; set; }
         public string? PathFile { get; set; }
         public string? Esito { get; set; }
+        public DateOnly DataRisoluzionePrevista { get; set; }
     }
 
     public class SegnalazioniIndexDTO
@@ -61,6 +62,7 @@ namespace ProgettoIUM.Services.Shared
             public Guid Id { get; set; }
             public string Priorità { get; set; }
             public string Stato { get; set; }
+            public string Luogo { get; set; }
             public string Categoria { get; set; }
             public DateTime DataInvio { get; set; }
             public string Esito { get; set; }
@@ -131,6 +133,7 @@ namespace ProgettoIUM.Services.Shared
                         Id = x.Id,
                         Stato = x.StatoAttuale,
                         Priorità = x.Priorità,
+                        Luogo = x.Luogo,
                         Categoria = x.Categoria,
                         DataInvio = x.DataInvio,
                         Esito = x.Esito
@@ -146,7 +149,7 @@ namespace ProgettoIUM.Services.Shared
         /// </summary>
         /// <param name="qry"></param>
         /// <returns></returns>
-        public async Task<SegnalazioneDetailDTO> Query(SegnalazioneDetailDTO qry)
+        public async Task<SegnalazioneDetailDTO> Query(SegnalazioniDetailQuery qry)
         {
             return await _dbContext.Segnalazioni
                 .Where(x => x.Id == qry.Id)
@@ -160,6 +163,8 @@ namespace ProgettoIUM.Services.Shared
                     Descrizione = x.Descrizione,
                     StatoAttuale = x.StatoAttuale,
                     Priorità = x.Priorità,
+                    NomeFile = x.NomeFile, 
+                    PathFile = x.PathFile,
                     Esito = x.Esito
 
                 })

@@ -16,8 +16,8 @@ namespace ProgettoIUM.Web.Features.Segnalazioni
 
         public IndexViewModel()
         {
-            OrderBy = nameof(SegnalazioniIndexViewModel.Id);
-            OrderByDescending = false;
+            OrderBy = nameof(SegnalazioniIndexViewModel.DataInvio);
+            OrderByDescending = true;
             Segnalazioni = Array.Empty<SegnalazioniIndexViewModel>();
         }
 
@@ -69,6 +69,7 @@ namespace ProgettoIUM.Web.Features.Segnalazioni
             this.Id = segnalazioniIndexDTO.Id;
             this.Priorità = segnalazioniIndexDTO.Priorità;
             this.Stato = segnalazioniIndexDTO.Stato;
+            this.Luogo = segnalazioniIndexDTO.Luogo;
             this.Categoria = segnalazioniIndexDTO.Categoria;
             this.DataInvio = segnalazioniIndexDTO.DataInvio;
             this.Esito = segnalazioniIndexDTO.Esito;
@@ -80,6 +81,7 @@ namespace ProgettoIUM.Web.Features.Segnalazioni
         public string Priorità { get; set; }
         public string Stato { get; set; }
         public string Categoria { get; set; }
+        public string Luogo { get; set; }
         public DateTime DataInvio { get; set; }
         public string Esito { get; set; }
     }

@@ -1,0 +1,39 @@
+﻿/* Importazione di un font moderno (Inter è lo standard attuale per le UI) */
+@@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+.success-page {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: #2d3436;
+}
+
+.code-box {
+    background-color: #f0f7ff;
+    border: 2px solid #cfe2ff;
+    letter-spacing: 0.05em;
+}
+
+.code-display {
+    font-family: 'Monaco', 'Consolas', monospace;
+    color: #0d6efd;
+    letter-spacing: 4px;
+}
+
+.copy-btn {
+    transition: all 0.2s ease;
+    color: #6c757d;
+}
+
+    .copy-btn:hover {
+        color: #0d6efd;
+        transform: scale(1.1);
+    }
+
+.btn-modern {
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: transform 0.2s;
+}
+
+    .btn-modern:hover {
+        transform: translateY(-2px);
+    }

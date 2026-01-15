@@ -20,6 +20,8 @@ namespace ProgettoIUM.Services.Shared
         public string? NomeFile { get; set; }
         public string? PathFile { get; set; }
         public string? Esito { get; set; }
+
+        public DateOnly DataRisoluzionePrevista { get; set; }
     }
 
     public partial class SharedService
@@ -48,6 +50,7 @@ namespace ProgettoIUM.Services.Shared
             s.Luogo = s.Luogo;
             s.Reparto = s.Reparto;
             s.Luogo = s.Luogo;
+            s.DataRisoluzionePrevista = s.DataRisoluzionePrevista;
       
 
             await _dbContext.SaveChangesAsync();

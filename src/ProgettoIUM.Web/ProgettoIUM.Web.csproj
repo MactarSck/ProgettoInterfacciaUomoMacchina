@@ -30,6 +30,10 @@
 		<Compile Update="Areas\Example\Users\IndexViewModel.cs">
 			<Generator></Generator>
 		</Compile>
+		<Compile Update="Features\Segnalazioni\EditViewModel.cs">
+		  <Generator>DtsGenerator</Generator>
+		  <LastGenOutput>Features\Segnalazioni\EditViewModel.cs.d.ts</LastGenOutput>
+		</Compile>
 	</ItemGroup>
 
 	<ItemGroup>

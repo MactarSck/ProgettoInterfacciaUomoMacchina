@@ -53,10 +53,14 @@
 
     <div class="text-center mt-5 d-flex flex-column align-items-center gap-3">
         <form asp-action="InviaDefinitivo" method="post" class="w-100">
+       
             <input type="hidden" asp-for="Categoria" />
             <input type="hidden" asp-for="Luogo" />
             <input type="hidden" asp-for="Reparto" />
             <input type="hidden" asp-for="Descrizione" />
+            <input type="hidden" asp-for="DataInvio" />
+            <input type="hidden" asp-for="NomeFileGiaCaricato" />
+            <input type="hidden" asp-for="PathFileGiaCaricato" />
 
             <button type="submit" class="btn btn-primary btn-lg px-5 shadow-sm"
                     style="background-color: #74a2ff; border: none; border-radius: 12px; min-width: 250px;">

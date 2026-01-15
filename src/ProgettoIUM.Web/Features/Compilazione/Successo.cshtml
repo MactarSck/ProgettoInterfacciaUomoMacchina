@@ -1,0 +1,57 @@
+﻿@model ProgettoIUM.Web.Features.Compilazione.CompilazioneViewModel
+
+@{
+    ViewData["Title"] = "Segnalazione Inviata";
+    var codice = ViewBag.CodiceUnivoco as string;
+}
+
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/Success.css" asp-append-versione="trueS" />
+}
+<div class="container py-5 text-center success-page">
+    <h2 class="fw-bold mb-4" style="letter-spacing: -1px;">Segnalazione inviata con successo!</h2>
+
+    <div class="alert alert-success mx-auto rounded-4 p-4 mb-5 border-0 shadow-sm" style="max-width: 750px; background-color: #e6fcf5; color: #087f5b;">
+        <p class="mb-1" style="font-weight: 500;">Grazie per aver agito con responsabilità.</p>
+        <p class="small opacity-75 mb-0">La tua segnalazione è stata registrata e sarà gestita con la massima riservatezza in conformità alle norme interne.</p>
+    </div>
+
+    <div class="d-flex justify-content-center align-items-center gap-4 mb-5">
+        <div class="p-4 rounded-4 shadow-sm text-center code-box" style="min-width: 450px;">
+            <p class="small mb-2 text-uppercase fw-bold opacity-50" style="font-size: 0.7rem; letter-spacing: 1.5px;">Il tuo codice univoco</p>
+            <h1 class="fw-bold m-0 code-display">@codice</h1>
+        </div>
+
+        <div class="text-center copy-btn" style="cursor: pointer;" onclick="copyToClipboard('@codice')">
+            <i class="fa-regular fa-copy fa-2x d-block mb-1"></i>
+            <span class="small fw-bold text-uppercase" style="font-size: 0.65rem;">Copia</span>
+        </div>
+    </div>
+
+    <div class="mb-5 px-3">
+        <p class="mb-1 text-muted">Ti preghiamo di <strong class="text-dark">conservare questo codice</strong> in un luogo sicuro.</p>
+        <p class="text-muted">È l'unico modo per <strong class="text-dark">monitorare lo stato</strong> della segnalazione.</p>
+    </div>
+
+    <div class="d-flex flex-column align-items-center gap-3">
+        <button class="btn btn-primary btn-lg rounded-pill px-5 btn-modern shadow" style="background-color: #4dabf7; border: none; min-width: 320px;">
+            VERIFICA STATO
+        </button>
+
+        <a href="/" class="btn btn-link text-decoration-none text-secondary fw-medium px-5 btn-modern" style="min-width: 320px;">
+            Torna alla Home Page
+        </a>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                // Sostituito alert con un feedback più moderno (opzionale)
+                alert("Codice copiato negli appunti!");
+            });
+        }
+    </script>
+}

@@ -29,42 +29,23 @@
                 </div>
 
                 <div class="d-flex align-items-center justify-content-end flex-grow-1 gap-3">
-
-                   <div class="d-flex align-items-center justify-content-end flex-grow-1 gap-3">
-    @if (identitaCorrente == null)
-    {
-        @* Mostra lo scudo se l'utente NON è loggato *@
-        <a asp-controller="Login" asp-action="Login" title="Login">
-            <i class="fa-solid fa-shield-halved text-dark fs-4"></i>
-        </a>
-    }
-    else
-    {
-        @* Mostra la porta se l'utente È loggato *@
-        @* Usiamo lo script per inviare il form POST specifico per la tua Action *@
-        <a href="javascript:void(0)" onclick="document.getElementById('POST_LogOut').submit()" title="@SharedLocalizer["Esci"]">
-            <i class="fa-solid fa-right-from-bracket text-danger fs-4"></i>
-        </a>
-    }
-</div>
-                    
+                    @if (identitaCorrente == null)
+                    {
+                        @* Mostra lo scudo solo se l'utente NON è loggato *@
+                        <a asp-controller="Login" asp-action="Login">
+                            <i class="fa-solid fa-shield-halved text-dark fs-4"></i>
+                        </a>
+                    }
+                    else
+                    {
+                        @* Mostra la porta per il logout rapido se l'utente È loggato *@
+                        <a href="javascript:void(0)" onclick="document.getElementById('POST_LogOut').submit()" title="Esci">
+                            <i class="fa-solid fa-right-from-bracket text-danger fs-4"></i>
+                        </a>
+                    }
 
                     <ul class="nav navbar-nav onit-page-menu-user">
-                        @if (identitaCorrente != null)
-                        {
-                            <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle text-dark" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <img class="user-profile-picture" src="@identitaCorrente.GravatarUrl" />&nbsp;
-                                    <span class="d-none d-md-inline">@identitaCorrente.EmailUtenteCorrente</span>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-dark dropdown-menu-end" role="menu">
-                                    <a class="dropdown-item" href="javascript:void(0)" onclick="javascript: document.getElementById('POST_LogOut').submit()">
-                                        <i class="fa-solid fa-right-from-bracket"></i>&nbsp;@SharedLocalizer["Esci"]
-                                    </a>
-                                    <form autocomplete="off" method="post" action="@Url.Action(MVC.Login.Logout())" id="POST_LogOut" style="display:none"></form>
-                                </div>
-                            </li>
-                        }
+                        @* ... qui rimane il tuo codice per il dropdown ... *@
                     </ul>
                 </div>
 
