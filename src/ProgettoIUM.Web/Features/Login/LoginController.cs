@@ -69,7 +69,7 @@ namespace ProgettoIUM.Web.Features.Login
         }
 
         [HttpPost]
-        public async virtual Task<ActionResult> Login(LoginViewModel model)
+        public async virtual Task<IActionResult> Login(LoginViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -85,20 +85,22 @@ namespace ProgettoIUM.Web.Features.Login
                 }
                 catch (LoginException e)
                 {
-                    ModelState.AddModelError(LoginErrorModelStateKey, e.Message);
+                   
+                    ModelState.AddModelError(string.Empty, "Email o password non corretti.");
                 }
             }
 
-            return RedirectToAction(MVC.Login.Login());
+           
+            return View(model);
         }
 
-        [HttpPost]
-        public virtual IActionResult Logout()
+        [HttpGet]
+        public async virtual Task<IActionResult> Logout()
         {
-            HttpContext.SignOutAsync();
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
             Alerts.AddSuccess(this, "Utente scollegato correttamente");
-            return RedirectToAction(MVC.Login.Login());
+            return RedirectToAction(MVC.Home.Index());
         }
     }
 }

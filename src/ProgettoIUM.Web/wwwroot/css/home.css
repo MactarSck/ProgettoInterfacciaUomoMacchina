@@ -1,42 +1,36 @@
-﻿.card-nuova {
-    background-color: #CFE2FF;
-    border: none;
-    border-radius: 32px;
-    transition: transform 0.2s;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
-
-
-.card-consulta {
-    background-color: #FFFFFF;
-    border: none;
-    border-radius: 32px;
-    transition: transform 0.2s;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
-.card-nuova, .card-consulta {
-    min-height: 560px; 
+﻿.card-nuova, .card-consulta {
+    /* Ridotta da 560px a 480px per un aspetto più compatto */
+    min-height: 480px;
     display: flex;
     flex-direction: column;
-    
+    padding: 30px; /* Aggiunto padding interno per gestire meglio gli spazi */
+    background-color: #FFFFFF;
+    border: none;
+    border-radius: 28px; /* Leggermente ridotto per adattarsi alla card più piccola */
+    transition: transform 0.2s, box-shadow 0.2s;
+    /* Ombra leggermente più delicata per non appesantire la card piccola */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1), 0 8px 24px rgba(0, 0, 0, 0.08);
 }
 
-.spacer-bottom {
-    margin-top: auto;
-    width: 100%;
+.card-nuova {
+    background-color: #CFE2FF;
 }
 
-    .card-nuova:hover, .card-consulta:hover {
-        transform: translateY(-5px);
-    }
+/* Ridimensionamento Icona: 5rem era molto grande, 3.5rem o 4rem è più bilanciato */
+.icon-box {
+    font-size: 3.5rem;
+    color: #333;
+    margin-bottom: 15px;
+}
 
+/* Ridimensionamento Pulsante: leggermente meno alto */
 .btn-seckure {
     display: block;
     width: 100%;
-    padding: 15px 0; 
-    border-radius: 12px;
+    padding: 12px 0; /* Ridotto da 15px */
+    border-radius: 10px;
     font-weight: bold;
-    font-size: 1.1rem;
+    font-size: 1rem; /* Ridotto da 1.1rem */
     text-transform: uppercase;
     border: none;
     transition: all 0.2s ease;
@@ -44,25 +38,13 @@
     text-align: center;
 }
 
-
-.btn-custom-blue {
-    background-color: #67A6FF;
-    color: white;
-    border-radius: 10px;
-    font-weight: bold;
-    border: none;
+.card-nuova:hover, .card-consulta:hover {
+    transform: translateY(-5px);
+    /* L'ombra aumenta leggermente al passaggio per dare profondità */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
 }
 
-.btn-custom-grey {
-    background-color: #8c8c8c;
-    color: white;
-    border-radius: 10px;
-    font-weight: bold;
-    border: none;
-}
-
-.icon-box {
-    font-size: 5rem;
-    color: #333;
-    margin-bottom: 20px;
+.spacer-bottom {
+    margin-top: auto;
+    width: 100%;
 }
