@@ -34,7 +34,8 @@ namespace ProgettoIUM.Web.Features.Segnalazioni
         [Display(Name = "Esito")]
         public string? Esito { get; set; }
 
-        public DateOnly DataRisoluzionePrevista { get; set; }
+        public DateTime? DataRisoluzionePrevista { get; set; }
+
 
 
         public string ToJson()
@@ -42,39 +43,44 @@ namespace ProgettoIUM.Web.Features.Segnalazioni
             return Infrastructure.JsonSerializer.ToJsonCamelCase(this);
         }
 
-        public void SetSegnalazioni(SegnalazioneDetailDTO segnalazioneDetailDTO)
+        public void SetSegnalazioni(SegnalazioneDetailDTO dto)
         {
-            if (segnalazioneDetailDTO != null)
-            {
-                Id = segnalazioneDetailDTO.Id;
-                DataInvio = segnalazioneDetailDTO.DataInvio;
-                Categoria = segnalazioneDetailDTO.Categoria;
-                Luogo = segnalazioneDetailDTO.Luogo;
-                Esito = segnalazioneDetailDTO.Esito;
-                Descrizione = segnalazioneDetailDTO.Descrizione;
-                Priorità = segnalazioneDetailDTO.Priorità;
-                DataRisoluzionePrevista = segnalazioneDetailDTO.DataRisoluzionePrevista;
-                
+            if (dto == null) return;
 
-                
-
-            }
+            Id = dto.Id;
+            CodiceUnivoco = dto.CodiceUnivoco;
+            DataInvio = dto.DataInvio;
+            Categoria = dto.Categoria;
+            Luogo = dto.Luogo;
+            Reparto = dto.Reparto;
+            Descrizione = dto.Descrizione;
+            StatoAttuale = dto.StatoAttuale;
+            Priorità = dto.Priorità;
+            Esito = dto.Esito;
+            DataRisoluzionePrevista = dto.DataRisoluzionePrevista;
+            NomeFile = dto.NomeFile;
+            PathFile = dto.PathFile;
         }
+
 
         public AddOrUpdateSegnalazioneCommand ToAddOrUpdateSegnalazioneCommand()
         {
             return new AddOrUpdateSegnalazioneCommand
             {
                 Id = Id,
+                StatoAttuale = StatoAttuale,
                 Esito = Esito,
                 Descrizione = Descrizione,
                 DataInvio = DataInvio,
                 Categoria = Categoria,
                 Priorità = Priorità,
                 Luogo = Luogo,
-                DataRisoluzionePrevista = DataRisoluzionePrevista,
+                Reparto = Reparto,
+                DataRisoluzionePrevista = DataRisoluzionePrevista
+                
             };
         }
+
     }
 
 }

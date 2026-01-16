@@ -26,7 +26,7 @@ namespace ProgettoIUM.Services.Shared.Segnalazione
         public string? NomeFile { get; set; } 
         public string? PathFile { get; set; } 
         public string? Esito { get; set; }
-        public DateTime DataRisoluzionePrevista { get; set; }
+        public DateTime? DataRisoluzionePrevista { get; set; }
 
 
 

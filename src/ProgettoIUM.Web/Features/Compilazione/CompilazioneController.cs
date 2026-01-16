@@ -35,7 +35,7 @@ namespace ProgettoIUM.Web.Features.Compilazione
         [HttpPost("Conferma")]
         public virtual async Task<IActionResult> Conferma(CompilazioneViewModel model)
         {
-            if (!ModelState.IsValid) return View("~/Features/Compilazione/Index.cshtml", model);
+            //if (!ModelState.IsValid) return View("~/Features/Compilazione/Index.cshtml", model);
 
             if (model.Allegato != null)
             {

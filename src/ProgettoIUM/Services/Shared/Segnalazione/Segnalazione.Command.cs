@@ -21,7 +21,8 @@ namespace ProgettoIUM.Services.Shared
         public string? PathFile { get; set; }
         public string? Esito { get; set; }
 
-        public DateOnly DataRisoluzionePrevista { get; set; }
+        public DateTime? DataRisoluzionePrevista { get; set; }
+
     }
 
     public partial class SharedService
@@ -42,15 +43,9 @@ namespace ProgettoIUM.Services.Shared
             }
 
             s.StatoAttuale = cmd.StatoAttuale;
-            s.DataInvio = cmd.DataInvio;
-            s.Descrizione = cmd.Descrizione;
-            s.Esito = s.Esito;
-            s.Reparto = s.Reparto;
-            s.Categoria = s.Categoria;
-            s.Luogo = s.Luogo;
-            s.Reparto = s.Reparto;
-            s.Luogo = s.Luogo;
-            s.DataRisoluzionePrevista = s.DataRisoluzionePrevista;
+            s.Esito = cmd.Esito;
+            s.DataRisoluzionePrevista = cmd.DataRisoluzionePrevista;
+            s.Priorità = cmd.Priorità;
       
 
             await _dbContext.SaveChangesAsync();

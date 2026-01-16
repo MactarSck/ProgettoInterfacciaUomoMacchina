@@ -49,7 +49,8 @@ namespace ProgettoIUM.Services.Shared
         public string? NomeFile { get; set; }
         public string? PathFile { get; set; }
         public string? Esito { get; set; }
-        public DateOnly DataRisoluzionePrevista { get; set; }
+        public DateTime? DataRisoluzionePrevista { get; set; }
+
     }
 
     public class SegnalazioniIndexDTO

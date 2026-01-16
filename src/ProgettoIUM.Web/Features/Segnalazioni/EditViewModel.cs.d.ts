@@ -1,4 +1,4 @@
-//#hash:r2Ql2DzXYdk=
+//#hash:xyIkkCtDAbs=
 declare module Features.Segnalazioni.Server {
 	interface editViewModel {
 		id: any;
@@ -13,6 +13,6 @@ declare module Features.Segnalazioni.Server {
 		nomeFile: string;
 		pathFile: string;
 		esito: string;
-		dataRisoluzionePrevista: any;
+		dataRisoluzionePrevista?: Date;
 	}
 }

@@ -55,33 +55,32 @@ namespace ProgettoIUM.Web.Features.Segnalazioni
 
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public virtual async Task<IActionResult> Edit(EditViewModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                try
-                {
-                    model.Id = await _sharedService.Handle(model.ToAddOrUpdateSegnalazioneCommand());
-
-                    Alerts.AddSuccess(this, "Informazioni aggiornate");
-
-                   
-                }
-                catch (Exception e)
-                {
-                    ModelState.AddModelError(string.Empty, e.Message);
-                }
+                Alerts.AddError(this, "Errore nei dati inseriti");
+                return View(model);
             }
 
-            if (ModelState.IsValid == false)
+            try
             {
-                Alerts.AddError(this, "Errore in aggiornamento");
+                await _sharedService.Handle(model.ToAddOrUpdateSegnalazioneCommand());
+                Alerts.AddSuccess(this, "Informazioni aggiornate correttamente");
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, ex.Message);
+                Alerts.AddError(this, "Errore durante il salvataggio");
+                return View(model);
             }
 
-            return RedirectToAction(Actions.Edit(model.Id));
+            return RedirectToAction(nameof(Edit), new { id = model.Id });
         }
+
 
     }
 
-       
+
 }

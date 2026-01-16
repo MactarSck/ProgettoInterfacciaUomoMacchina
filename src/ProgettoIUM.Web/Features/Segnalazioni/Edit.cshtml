@@ -2,11 +2,13 @@
 @{
     ViewData["Title"] = "Dettaglio Segnalazione - #" + Model.Id.ToString().Substring(0, 8).ToUpper();
 }
+
 @section Styles {
-    <link rel="stylesheet" href="~/css/Edit.css" asp-append-versione="trueS" />
+    <link rel="stylesheet" href="~/css/Edit.css" asp-append-versione="true" />
 }
 
 @section pageTitle {
+   
     <nav class="navbar navbar-expand navbar-light flex-wrap px-4">
         <div class="navbar-brand text-truncate fw-bold">
             @ViewData["Title"]
@@ -16,7 +18,13 @@
                     onclick="document.getElementById('edit-form-submitter').click()">
                 <i class="fa-solid fa-floppy-disk"></i>&nbsp;Salva
             </button>
+            <a asp-action="Index"
+               asp-controller="Segnalazioni"
+               class="btn btn-outline-secondary px-2 pill shadow-sm">
+                <i class="fa-solid fa-arrow-left"></i>&nbsp;Esci
+            </a>
         </div>
+
     </nav>
     <hr>
 }
@@ -26,26 +34,41 @@
         <div class="row">
             <div class="col-12">
                 @* SEZIONE AMMINISTRAZIONE (Ispirata a image_97f3eb.png) *@
-                <form method="post" action="@Url.Action(MVC.Segnalazioni.Edit())" id="edit-form">
+                <form method="post" asp-action="Edit" id="edit-form">
+                    @Html.AntiForgeryToken()
                     <input id="edit-form-submitter" class="d-none" type="submit" />
                     <input type="hidden" asp-for="Id" />
 
                     <div class="custom-gray-card mb-5">
-                        <h5 class="text-center fw-bold text-uppercase mb-4 pt-2" style="letter-spacing: 2px;">Amministrazione</h5>
+                        <h5 class="text-center fw-bold text-uppercase " style="letter-spacing: 2px;">Amministrazione</h5>
                         <div class="row g-4 px-3 pb-2">
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <label class="small fw-bold mb-2 d-block text-dark">Stato Segnalazione</label>
-                                <select asp-for="StatoAttuale" v-model="model.statoAttuale" class="form-select modern-input">
+                                <select asp-for="StatoAttuale"  class="form-select modern-input">
                                     <option value="Da prendere in carico">Da prendere in carico</option>
                                     <option value="In lavorazione">In lavorazione</option>
                                     <option value="Chiusa">Chiusa</option>
                                 </select>
                             </div>
-                            <div class="col-md-4">
-                                <label class="small fw-bold mb-2 d-block text-dark">Data risoluzione prevista</label>
-                                <input type="date" asp-for="DataRisoluzionePrevista" v-model="model.dataRisoluzionePrevista" class="form-control modern-input" />
+                            <div class="col-md-6">
+                                <label class="small fw-bold mb-2 d-block text-dark">Priorità</label>
+                                <select asp-for="Priorità" class="form-select modern-input">
+                                    <option value="Alta">Alta</option>
+                                    <option value="Media">Media</option>
+                                    <option value="Bassa">Bassa</option>
+                                </select>
                             </div>
-                            <div class="col-md-4">
+                        </div>
+                        <div class="row g-4 px-3 pb-2">
+                            <div class="col-md-6">
+                                <label class="small fw-bold mb-2 d-block text-dark">Data risoluzione prevista</label>
+                                <input type="date"
+                                       asp-for="DataRisoluzionePrevista"
+                                       value="@(Model.DataRisoluzionePrevista?.ToString("yyyy-MM-dd"))"
+                                       class="form-control modern-input" />
+
+                            </div>
+                            <div class="col-md-6">
                                 <label class="small fw-bold mb-2 d-block text-dark">Esito</label>
                                 <input asp-for="Esito" class="form-control modern-input" placeholder="Inserisci esito..." />
                             </div>
@@ -129,28 +152,3 @@
     </div>
 </div>
 
-@section scripts {
-    <script src="/js/bundle-vue.js" asp-append-version="true"></script>
-    <script src="~/Features/Segnalazioni/Edit.js" asp-append-version="true"></script>
-    <script src="~/node_modules/@@microsoft/signalr/dist/browser/signalr.js" asp-append-version="true"></script>
-    <script src="~/js/signalRConnectionManager.js" asp-append-version="true"></script>
-
-    <script type="application/json" id="Seed_JSON">
-        @Html.Raw(Model.ToJson())
-    </script>
-
-    <script type="text/javascript">
-        // Inizializzazione SignalR sul gruppo della segnalazione specifica
-        var signalRManager = new SignalRConnectionManager("/ProgettoIUMHub", "@Model.Id", "JoinGroup", "LeaveGroup");
-        signalRManager.registerEvents();
-        signalRManager.startConnection();
-
-        // Inizializzazione Logica Vue
-        var editModel = new Features.Segnalazioni.editVueModel(signalRManager.connection, JSON.parse(document.getElementById("Seed_JSON").innerText));
-
-        var vueModel = new Vue({
-            el: '#vue-app',
-            data: editModel
-        });
-    </script>
-}
