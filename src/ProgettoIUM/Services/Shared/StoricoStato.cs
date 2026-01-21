@@ -16,7 +16,7 @@ namespace ProgettoIUM.Services.Shared
         public Guid SegnalazioneId { get; set; }
         public string StatoPrecedente { get; set; }
         public string StatoNuovo { get; set; }
-        public DateTime DataCambio { get; set; }
+        public DateTimeOffset DataCambio { get; set; }
 
        
     }

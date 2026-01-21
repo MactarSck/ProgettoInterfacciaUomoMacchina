@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
+using ProgettoIUM.Services;
 using ProgettoIUM.Services.Shared;
 using ProgettoIUM.Web.Infrastructure;
 using ProgettoIUM.Web.SignalR;
@@ -18,12 +20,14 @@ namespace ProgettoIUM.Web.Features.Segnalazioni
         private readonly SharedService _sharedService;
         private readonly IPublishDomainEvents _publisher;
         private readonly IStringLocalizer<SharedResource> _sharedLocalizer;
+        private readonly ProgettoIUMDbContext _dbContext;
 
-        public SegnalazioniController(SharedService sharedService, IPublishDomainEvents publisher, IStringLocalizer<SharedResource> sharedLocalizer)
+        public SegnalazioniController(SharedService sharedService, IPublishDomainEvents publisher, IStringLocalizer<SharedResource> sharedLocalizer, ProgettoIUMDbContext context)
         {
             _sharedService = sharedService;
             _publisher = publisher;
             _sharedLocalizer = sharedLocalizer;
+            _dbContext = context;
 
             ModelUnbinderHelpers.ModelUnbinders.Add(typeof(IndexViewModel), new SimplePropertyModelUnbinder());
         }
@@ -87,7 +91,36 @@ namespace ProgettoIUM.Web.Features.Segnalazioni
 
             try
             {
+           
                 await _sharedService.Handle(model.ToAddOrUpdateSegnalazioneCommand());
+
+              
+                var segnalazione = await _dbContext.Segnalazioni
+                    .Include(s => s.StoricoStati)
+                    .FirstOrDefaultAsync(s => s.Id == model.Id);
+
+                if (segnalazione != null)
+                {
+                   
+                    var ultimoStato = segnalazione.StoricoStati
+                        .OrderByDescending(s => s.DataCambio)
+                        .FirstOrDefault()?.StatoNuovo;
+
+                    if (ultimoStato != model.StatoAttuale)
+                    {
+                        segnalazione.StoricoStati.Add(new StoricoStato
+                        {
+                            StatoNuovo = model.StatoAttuale,
+                            DataCambio = DateTimeOffset.Now
+
+
+
+                        });
+
+                        await _dbContext.SaveChangesAsync();
+                    }
+                }
+
                 Alerts.AddSuccess(this, "Informazioni aggiornate correttamente");
             }
             catch (Exception ex)

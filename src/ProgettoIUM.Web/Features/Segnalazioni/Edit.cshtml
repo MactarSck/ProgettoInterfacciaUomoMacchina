@@ -100,7 +100,9 @@
                                     <i class="fa-solid fa-circle"></i>
                                 </div>
                                 <div class="timeline-content">
-                                    <div class="timeline-time">@s.DataCambio.ToString("dd/MM/yyyy HH:mm")</div>
+                                    <div class="timeline-time">
+                                        @s.DataCambio.ToLocalTime().ToString("dd/MM/yyyy HH:mm")
+                                    </div>
                                     <div class="timeline-state">@s.StatoNuovo</div>
                                 </div>
                             </div>

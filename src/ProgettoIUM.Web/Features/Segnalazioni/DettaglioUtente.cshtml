@@ -31,7 +31,7 @@
     <div class="text-center mb-5">
         <p class="text-muted small text-uppercase fw-bold mb-2" style="letter-spacing: 1px;">Stato attuale della pratica</p>
 
-        @{
+                    @{
             string stato = Model.StatoAttuale?.ToLower() ?? "aperto";
             string bgColor = "#fff9db";
             string textColor = "#856404";
@@ -43,12 +43,21 @@
                 textColor = "#0f5132";
                 dotColor = "#198754";
             }
+            else if (stato == "nuova - in attesa di verifica")
+            {
+                bgColor = "#cfe2ff";
+                textColor = "#084298";
+                dotColor = "#0d6efd";
+            }
             else if (stato == "aperto" || stato == "inviata")
             {
                 bgColor = "#cfe2ff";
                 textColor = "#084298";
                 dotColor = "#0d6efd";
             }
+
+
+            
         }
 
         <div class="d-inline-flex align-items-center rounded-pill shadow-sm p-3 px-5 border-0"
@@ -99,7 +108,6 @@
     </div>
 
     @* --- SEZIONE STORICO STATI --- *@
-
     <div class="custom-gray-card mb-5">
         <h5 class="text-center fw-bold text-uppercase mb-4 pt-2" style="letter-spacing: 2px;">
             Storico Stati
@@ -123,7 +131,9 @@
                                 <i class="fa-solid fa-circle"></i>
                             </div>
                             <div class="timeline-content">
-                                <div class="timeline-time">@s.DataCambio.ToString("dd/MM/yyyy HH:mm")</div>
+                                <div class="timeline-time">
+                                    @s.DataCambio.ToLocalTime().ToString("dd/MM/yyyy HH:mm")
+                                </div>
                                 <div class="timeline-state">@s.StatoNuovo</div>
                             </div>
                         </div>
@@ -135,6 +145,9 @@
                 <p class="text-center mb-0">Nessuno storico disponibile.</p>
             }
         </div>
+    </div>
+    <div class="mb-5">
+        <div class="text-center mb-3">
     </div>
   
     @* --- SEZIONE CHAT --- *@
