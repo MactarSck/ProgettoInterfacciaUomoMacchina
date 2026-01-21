@@ -19,70 +19,102 @@
 }
 <div id="pageId" class="onit-page">
     <div class="onit-page-sticky-top" id="onit-page-sticky-top">
-        <nav class="navbar navbar-expand-lg navbar-dark onit-page-menu bg-white border-bottom shadow-sm py-2">
-            <div class="container-fluid d-flex align-items-center">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-white   py-2">
+            <div class="container-fluid">
 
-                <nav class="d-none d-lg-flex gap-5 flex-grow-1 align-items-center" aria-label="Secondary navigation">
-                    <a class="nav-link p-0 fw-medium small text-black"
-                       asp-controller="Home" asp-action="Index">About</a>
+                <div class="row w-100 align-items-center">
 
-                    <a class="nav-link p-0 fw-medium small text-black"
-                       asp-controller="Home" asp-action="Privacy">Privacy</a>
-                </nav>
+                    <!-- SINISTRA -->
+                    <div class="col-4 d-none d-lg-flex align-items-center gap-5">
+                        <a class="nav-link p-0 fw-medium small text-black"
+                           asp-controller="Home" asp-action="Index">About</a>
 
-                <div class="flex-grow-1 text-center">
-                    <a class="navbar-brand m-0" href="/">
-                        <img class="onit-suites-logo" src="~/images/app-logo.png" style="height: 50px; width: auto;" alt="SEC-K-URE Systems" />
-                    </a>
-                </div>
+                        <a class="nav-link p-0 fw-medium small text-black"
+                           asp-controller="Home" asp-action="Privacy">Privacy</a>
+                    </div>
 
+                    <!-- CENTRO (LOGO PERFETTAMENTE CENTRATO) -->
+                    <div class="col-4 text-center">
+                        <a class="navbar-brand m-0" href="/">
+                            <img src="~/images/app-logo.png"
+                                 style="height:50px"
+                                 alt="SEC-K-URE Systems" />
+                        </a>
+                    </div>
 
-                <div class="d-flex align-items-center justify-content-end flex-grow-1 gap-3">
+                    <!-- DESTRA -->
+                    <div class="col-4 d-flex justify-content-end align-items-center gap-3">
 
-                    <div class="dropdown">
-                        <button class="btn btn-link text-dark p-0" type="button" id="userMenu" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fa-solid fa-user-circle fs-2"></i>
+                        <div class="dropdown">
+                            <button class="btn btn-link text-dark p-0"
+                                    type="button"
+                                    data-bs-toggle="dropdown">
+                                <i class="fa-solid fa-user-circle fs-2"></i>
+                            </button>
+
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    <li>
+                                        <form asp-controller="Login" asp-action="Logout" method="post">
+                                            <button type="submit" class="dropdown-item">
+                                                <i class="fa-solid fa-door-open me-2"></i> Logout
+                                            </button>
+                                        </form>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li>
+                                        <a asp-controller="Login" asp-action="Login" class="dropdown-item">
+                                            <i class="fa-solid fa-shield-halved me-2"></i> Area Riservata
+                                        </a>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+
+                        <button class="navbar-toggler text-dark border-0"
+                                type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#navbarSupportedContent">
+                            <i class="fa-solid fa-bars"></i>
                         </button>
-
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
-                            @if (User.Identity.IsAuthenticated)
-                            {
-                                <li>
-                                    <form asp-controller="Login" asp-action="Logout" method="post" class="m-0">
-                                        <button type="submit" class="dropdown-item">
-                                            <i class="fa-solid fa-door-open me-2"></i>
-                                            Logout
-                                        </button>
-                                    </form>
-                                </li>
-                            }
-                            else
-                            {
-                                <li>
-                                    <a asp-controller="Login" asp-action="Login" class="dropdown-item">
-                                        <i class="fa-solid fa-shield-halved me-2"></i>
-                                        Area Riservata
-                                    </a>
-                                </li>
-                            }
-                        </ul>
                     </div>
 
                 </div>
-
-
-
-                <button class="navbar-toggler text-dark border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
-                    <i class="fa-solid fa-bars"></i>
-                </button>
             </div>
         </nav>
+
+
+
         
         @RenderSection("pageTitle", false)
     </div>
     @RenderSection("pageSubtitle", false)
     @RenderBody()
 </div>
+
+<footer class="onit-footer mt-auto py-4">
+    <div class="container text-center">
+        <small class="text-muted">
+            © @DateTime.Now.Year - Manuel Ragazzini - Mactar Ibrahima Seck AA 2025/2026
+        </small>
+    </div>
+</footer>
+
+<style>
+    .onit-page {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .onit-footer {
+        background: #DEE2E6;
+        border-top: 1px solid #DEE2E6;
+    }
+</style>
 @section googlehead{
     @*<script async src="https://www.googletagmanager.com/gtag/js?id=UA-"></script>
     <script>
