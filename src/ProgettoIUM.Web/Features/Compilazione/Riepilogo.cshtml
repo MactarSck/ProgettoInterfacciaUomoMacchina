@@ -5,55 +5,73 @@
         <h2 class="fw-bold">Riepilogo dati inseriti</h2>
     </div>
 
-    <div class="card border-0 shadow-lg rounded-4 p-5" style="background-color: #f2f2f2;">
-        <h4 class="text-center fw-bold mb-4">Dati segnalazione</h4>
+    <div class="custom-gray-card shadow-lg p-5 rounded-5 mx-auto mb-5" style="max-width: 900px; background-color: #fcfcfc; border: 1px solid #eee;">
+      
 
-        <div class="row mb-3">
-            <div class="col-sm-4 fw-bold text-end">Categoria Illecito:</div>
-            <div class="col-sm-8 text-start">@Model.Categoria</div>
-        </div>
-
-        <div class="row mb-3">
-            <div class="col-sm-4 fw-bold text-end">Data e Ora:</div>
-            <div class="col-sm-8 text-start">@Model.DataInvio.ToString("yyyy/MM/dd HH:mm")</div>
-        </div>
-
-        <div class="row mb-3">
-            <div class="col-sm-4 fw-bold text-end">Luogo:</div>
-            <div class="col-sm-8 text-start">@Model.Luogo</div>
-        </div>
-
-        <div class="row mb-3">
-            <div class="col-sm-4 fw-bold text-end">Reparto:</div>
-            <div class="col-sm-8 text-start">@Model.Reparto</div>
-        </div>
-        <div class="row mb-4">
-            <div class="col-sm-4 fw-bold text-end">Allegati:</div>
-            <div class="col-sm-8 text-start">
-                @if (Model.Allegato != null)
-                {
-                    <span class="text-primary fw-bold">
-                        <i class="fa-solid fa-paperclip me-1"></i> @Model.Allegato.FileName
-                    </span>
-                }
-                else
-                {
-                    <span class="text-muted italic">Nessun file selezionato</span>
-                }
+        <div class="row gy-4 px-lg-4">
+            <div class="col-md-6">
+                <label class="text-muted small text-uppercase fw-bold d-block mb-1">Categoria Illecito</label>
+                <div class="p-3 bg-white border rounded-3 shadow-sm">
+                    <i class="fa-solid fa-tag text-primary me-2"></i> @Model.Categoria
+                </div>
             </div>
-        </div>
 
-        <div class="mt-4">
-            <p class="fw-bold mb-2">Descrizione accaduto:</p>
-            <p class="text-muted border p-3 rounded-3 bg-light" style="font-size: 0.95rem; line-height: 1.6;">
-                @Model.Descrizione
-            </p>
+            <div class="col-md-6">
+                <label class="text-muted small text-uppercase fw-bold d-block mb-1">Data e Ora</label>
+                <div class="p-3 bg-white border rounded-3 shadow-sm">
+                    <i class="fa-solid fa-calendar-days text-success me-2"></i> @Model.DataInvio.ToString("yyyy/MM/dd HH:mm")
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <label class="text-muted small text-uppercase fw-bold d-block mb-1">Luogo</label>
+                <div class="p-3 bg-white border rounded-3 shadow-sm">
+                    <i class="fa-solid fa-location-dot text-danger me-2"></i> @Model.Luogo
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <label class="text-muted small text-uppercase fw-bold d-block mb-1">Reparto</label>
+                <div class="p-3 bg-white border rounded-3 shadow-sm">
+                    <i class="fa-solid fa-building text-warning me-2"></i> @Model.Reparto
+                </div>
+            </div>
+
+            <div class="col-12">
+                <label class="text-muted small text-uppercase fw-bold d-block mb-1">Allegati</label>
+                <div class="p-3 bg-white border rounded-3 shadow-sm">
+                    @if (Model.Allegato != null)
+                    {
+                        <div class="d-flex align-items-center justify-content-between">
+                            <span class="text-primary fw-bold">
+                                <i class="fa-solid fa-paperclip me-2"></i> @Model.Allegato.FileName
+                            </span>
+                            <a href="@Model.PathFileGiaCaricato" target="_blank" class="btn btn-sm btn-primary rounded-pill px-4">
+                                <i class="fa-solid fa-download me-1"></i> Scarica
+                            </a>
+                        </div>
+                    }
+                    else
+                    {
+                        <span class="text-muted small">
+                            <i class="fa-solid fa-circle-info me-2"></i> Nessun file selezionato
+                        </span>
+                    }
+                </div>
+            </div>
+
+            <div class="col-12 mt-4">
+                <label class="text-muted small text-uppercase fw-bold d-block mb-1">Descrizione accaduto</label>
+                <div class="p-4 bg-white border rounded-4 shadow-sm text-muted" style="line-height: 1.8; border-left: 4px solid #0d6efd !important;">
+                    @Model.Descrizione
+                </div>
+            </div>
         </div>
     </div>
 
+
     <div class="text-center mt-5 d-flex flex-column align-items-center gap-3">
         <form asp-action="InviaDefinitivo" method="post" class="w-100">
-       
             <input type="hidden" asp-for="Categoria" />
             <input type="hidden" asp-for="Luogo" />
             <input type="hidden" asp-for="Reparto" />
@@ -68,32 +86,34 @@
             </button>
         </form>
 
+        
         <a href="javascript:history.back()" class="btn btn-secondary btn-lg px-5 shadow-sm"
            style="background-color: #adb5bd; border: none; border-radius: 12px; min-width: 250px;">
             MODIFICA DATI
         </a>
-        
     </div>
+
 </div>
-@section scripts {
-
-    <script>
-     
-        let isSubmitting = false;
-        document.querySelector('form').onsubmit = function() {
-            isSubmitting = true;
-        };
-
-      
-        window.addEventListener('beforeunload', function (e) {
-            if (isSubmitting) return; 
-
-            const msg = 'Dati non salvati. Sei sicuro di voler uscire?';
-            e.preventDefault();
-            e.returnValue = msg;
-            return msg;
-        });
-    </script>
 
 }
+
+<style>
+
+    html, body {
+        margin: 0;
+        padding: 0;
+  
+        min-height: 100vh;
+    }
+
+    body {
+      
+        background: linear-gradient(180deg, #FFFFFF 0%, #ECECEC 91%);
+       
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+    }
+
+</style>
+
 

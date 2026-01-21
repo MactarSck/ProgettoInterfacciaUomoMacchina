@@ -50,6 +50,7 @@ namespace ProgettoIUM.Services.Shared
         public string? PathFile { get; set; }
         public string? Esito { get; set; }
         public DateTime? DataRisoluzionePrevista { get; set; }
+        public List<StoricoStato> StoricoStati { get; set; }
 
     }
 
@@ -95,7 +96,7 @@ namespace ProgettoIUM.Services.Shared
 
             if (string.IsNullOrWhiteSpace(qry.Filter) == false)
             {
-                queryable = queryable.Where(x => x.Categoria.Contains(qry.Filter, StringComparison.OrdinalIgnoreCase));
+                queryable = queryable.Where(x => x.Luogo.Contains(qry.Filter, StringComparison.OrdinalIgnoreCase));
             }
 
             return new SegnalazioneSelectDTO
@@ -166,7 +167,11 @@ namespace ProgettoIUM.Services.Shared
                     Priorità = x.Priorità,
                     NomeFile = x.NomeFile, 
                     PathFile = x.PathFile,
-                    Esito = x.Esito
+                    Esito = x.Esito,
+                    DataRisoluzionePrevista = x.DataRisoluzionePrevista,
+                    StoricoStati = x.StoricoStati
+                            .OrderByDescending(s => s.DataCambio)
+                            .ToList()
 
                 })
                 .FirstOrDefaultAsync();

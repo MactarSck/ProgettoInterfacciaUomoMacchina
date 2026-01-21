@@ -1,29 +1,26 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Localization;
+using Microsoft.AspNetCore.DataProtection; // Necessario per la crittografia
 using ProgettoIUM.Services;
-using ProgettoIUM.Services.Shared;
 using ProgettoIUM.Services.Shared.Segnalazione;
-using ProgettoIUM.Web.Features.Compilazione;
 using System;
 using System.IO;
 using System.Threading.Tasks;
 
-
-
 namespace ProgettoIUM.Web.Features.Compilazione
 {
-    public partial class CompilazioneController :Controller
+    public partial class CompilazioneController : Controller
     {
-        private readonly SharedService _sharedService;
-        private readonly IStringLocalizer<SharedResource> _sharedLocalizer;
         private readonly ProgettoIUMDbContext _dbContext;
-        public CompilazioneController(ProgettoIUMDbContext context)
+        private readonly IDataProtector _protector;
+
+
+        public CompilazioneController(ProgettoIUMDbContext context, IDataProtectionProvider provider)
         {
             _dbContext = context;
+          
+            _protector = provider.CreateProtector("Segnalazione.Codice.Sicurezza.v1");
         }
-
 
         [HttpGet]
         public virtual IActionResult NuovaSegnalazione()
@@ -39,21 +36,17 @@ namespace ProgettoIUM.Web.Features.Compilazione
 
             if (model.Allegato != null)
             {
-                
                 var uploadsPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
                 if (!Directory.Exists(uploadsPath)) Directory.CreateDirectory(uploadsPath);
 
-                
-                var uniqueName = Guid.NewGuid().ToString() + Path.GetExtension(model.NomeFileGiaCaricato);
+                var uniqueName = Guid.NewGuid().ToString() + Path.GetExtension(model.Allegato.FileName);
                 var filePath = Path.Combine(uploadsPath, uniqueName);
 
-                
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {
                     await model.Allegato.CopyToAsync(stream);
                 }
 
-                
                 model.NomeFileGiaCaricato = model.Allegato.FileName;
                 model.PathFileGiaCaricato = "/uploads/" + uniqueName;
             }
@@ -64,24 +57,20 @@ namespace ProgettoIUM.Web.Features.Compilazione
         [HttpPost("InviaDefinitivo")]
         public virtual async Task<IActionResult> InviaDefinitivo(CompilazioneViewModel model)
         {
-            string codice = GenerateCodiceUnivoco();
+            string codiceOriginale = GenerateCodiceUnivoco();
 
             var segnalazione = new Segnalazione
             {
                 Id = Guid.NewGuid(),
-                CodiceUnivoco = codice,
-                DataInvio = model.DataInvio,
+                CodiceUnivoco = codiceOriginale,
+                DataInvio = DateTime.Now,
                 Categoria = model.Categoria,
                 Luogo = model.Luogo,
                 Reparto = model.Reparto,
                 Descrizione = model.Descrizione,
-
-                
                 StatoAttuale = "Nuova - In attesa di verifica",
                 Priorità = "Non Definita",
                 Esito = "",
-
-                
                 NomeFile = model.NomeFileGiaCaricato,
                 PathFile = model.PathFileGiaCaricato
             };
@@ -89,21 +78,37 @@ namespace ProgettoIUM.Web.Features.Compilazione
             _dbContext.Segnalazioni.Add(segnalazione);
             await _dbContext.SaveChangesAsync();
 
-            return RedirectToAction("Successo", new { codice = codice });
+            
+            string codiceProtetto = _protector.Protect(codiceOriginale);
+
+            return RedirectToAction("Successo", new { id = codiceProtetto });
         }
 
+        [HttpGet]
+        public virtual IActionResult Successo(string id)
+        {
+            if (string.IsNullOrEmpty(id)) return RedirectToAction("Index", "Home");
+
+            try
+            {
+               
+                string codiceChiaro = _protector.Unprotect(id);
+
+                ViewBag.CodiceInChiaro = codiceChiaro; 
+                ViewBag.CodiceProtetto = id;           
+            }
+            catch
+            {
+                
+                return RedirectToAction("Index", "Home");
+            }
+
+            return View("~/Features/Compilazione/Successo.cshtml");
+        }
 
         private string GenerateCodiceUnivoco()
         {
             return $"SK-{DateTime.Now.Year}-{Guid.NewGuid().ToString().Substring(0, 4).ToUpper()}";
-        }
-
-
-        [HttpGet]
-        public virtual IActionResult Successo(string codice)
-        {
-            ViewBag.CodiceUnivoco = codice ?? "SK-ERROR-000";
-            return View("~/Features/Compilazione/Successo.cshtml");
         }
     }
 }

@@ -7,8 +7,17 @@
 <div class="container d-flex justify-content-center mt-5 mb-5">
 
  
-    <div class="card border-0 shadow-sm p-5 text-center"
-         style="border-radius: 40px; max-width: 500px; width: 100%; background-color: #e2ecf9;">
+    <div class="card border-0 p-5 text-center"
+         style="
+        border-radius: 40px;
+        max-width: 500px;
+        width: 100%;
+        background-color: #e2ecf9;
+        box-shadow:
+            0 20px 40px rgba(0, 0, 0, 0.12),
+            0 8px 16px rgba(0, 0, 0, 0.08);
+         transition: box-shadow 0.3s ease, transform 0.3s ease; ">
+
 
       
       
@@ -60,7 +69,19 @@
 </div>
 
 <style>
-    
+    html, body {
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+    }
+
+    body {
+        background: linear-gradient(180deg, #FFFFFF 0%, #ECECEC 91%);
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+    }
+
+
     .btn-lg:hover {
         background-color: #5a94f0 !important;
         filter: brightness(1.05);
@@ -71,3 +92,10 @@
     .form-control {
         padding: 0.8rem 1.2rem;
     }
+
+    .card:hover {
+        box-shadow: 0 28px 60px rgba(0, 0, 0, 0.16), 0 12px 24px rgba(0, 0, 0, 0.1);
+        transform: translateY(-4px);
+    }
+
+</style>

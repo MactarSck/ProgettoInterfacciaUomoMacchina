@@ -18,29 +18,11 @@ namespace ProgettoIUM.Infrastructure
             context.Users.AddRange(
                 new User
                 {
-                    Id = Guid.Parse("3de6883f-9a0b-4667-aa53-0fbc52c4d300"), // Forced to specific Guid for tests
-                    Email = "email1@test.it",
+                    Id = Guid.Parse("3de6883f-9a0b-4667-aa53-0fbc52c4d300"), 
+                    Email = "gestore@test.it",
                     Password = "M0Cuk9OsrcS/rTLGf5SY6DUPqU2rGc1wwV2IL88GVGo=", // SHA-256 of text "Prova"
-                    FirstName = "Nome1",
+                    FirstName = "Gestione",
                     LastName = "Cognome1",
-                    
-                },
-                new User
-                {
-                    Id = Guid.Parse("a030ee81-31c7-47d0-9309-408cb5ac0ac7"), // Forced to specific Guid for tests
-                    Email = "email2@test.it",
-                    Password = "Uy6qvZV0iA2/drm4zACDLCCm7BE9aCKZVQ16bg80XiU=", // SHA-256 of text "Test"
-                    FirstName = "Nome2",
-                    LastName = "Cognome2",
-                    
-                },
-                new User
-                {
-                    Id = Guid.Parse("bfdef48b-c7ea-4227-8333-c635af267354"), // Forced to specific Guid for tests
-                    Email = "email3@test.it",
-                    Password = "Uy6qvZV0iA2/drm4zACDLCCm7BE9aCKZVQ16bg80XiU=", // SHA-256 of text "Test"
-                    FirstName = "Nome3",
-                    LastName = "Cognome3",
                     
                 });
 
@@ -61,12 +43,12 @@ namespace ProgettoIUM.Infrastructure
                     CodiceUnivoco = "MT-9942-RS",
                     DataInvio = DateTime.Now.AddDays(-2),
                     Categoria = "Manutenzione",
-                    Luogo = "Cesena",
+                    Luogo = "ONIT SANITA Cesena",
                     Reparto = "Produzione",
                     Descrizione = "Rilevato guasto meccanico alla linea 3.",
                     StatoAttuale = "Aperta",
                     Priorità = "Media",
-                    Esito = "-"
+                    Esito = ""
                 },
                 new Segnalazione
                 {
@@ -74,7 +56,7 @@ namespace ProgettoIUM.Infrastructure
                     CodiceUnivoco = "SI-1023-QA",
                     DataInvio = DateTime.Now.AddHours(-5),
                     Categoria = "Sicurezza Informatica",
-                    Luogo = "Rimini",
+                    Luogo = "Forli VEM",
                     Reparto = "Logistica",
                     Descrizione = "Uscita di emergenza ostruita da imballaggi.",
                     StatoAttuale = "Chiusa",
@@ -87,12 +69,12 @@ namespace ProgettoIUM.Infrastructure
                     CodiceUnivoco = "IT-5512-LB",
                     DataInvio = DateTime.Now.AddDays(-1),
                     Categoria = "Sicurezza Informatica",
-                    Luogo = "Savignano",
+                    Luogo = "MAGGIOLI Savignano",
                     Reparto = "IT",
                     Descrizione = "Problemi di connessione al server centrale.",
                     StatoAttuale = "In Lavorazione",
                     Priorità = "Alta",
-                    Esito = "-"
+                    Esito = ""
                 },
                 new Segnalazione
                 {
@@ -100,12 +82,12 @@ namespace ProgettoIUM.Infrastructure
                     CodiceUnivoco = "MQ-3242-R3",
                     DataInvio = DateTime.Now.AddDays(-3),
                     Categoria = "Altro",
-                    Luogo = "forli",
+                    Luogo = "VEM forli",
                     Reparto = "HR",
                     Descrizione = "Rilevato guasto meccanico alla linea 3.",
                     StatoAttuale = "Aperta",
                     Priorità = "Media",
-                    Esito = "-"
+                    Esito = ""
                 }
 
 

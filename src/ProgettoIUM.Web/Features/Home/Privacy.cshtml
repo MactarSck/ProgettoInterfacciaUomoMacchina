@@ -1,0 +1,90 @@
+﻿@{
+    ViewData["Title"] = "Informativa sulla Privacy";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
+    <style>
+        .privacy-card {
+            background: white;
+            border-radius: 24px;
+            border: none;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        .crypto-badge {
+            background-color: #CFE2FF;
+            color: #0056b3;
+            font-weight: bold;
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+        }
+    </style>
+}
+
+<div class="container mt-5 mb-5">
+    <div class="text-center mb-5">
+        <h1 class="fw-bold display-5" style="color: #1a2a3a;">Privacy & Sicurezza</h1>
+        <p class="lead text-muted">Proteggiamo la tua identità attraverso tecnologie avanzate di crittografia.</p>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-9">
+            <div class="privacy-card p-4 p-md-5">
+
+                <section class="mb-5">
+                    <h3 class="fw-bold h4 mb-3 text-primary">
+                        <i class="fa-solid fa-user-shield me-2"></i> Anonimato Garantito
+                    </h3>
+                    <p class="text-secondary">
+                        Il nostro sistema è progettato per non raccogliere metadati che possano ricondurre alla tua identità.
+                        Non registriamo indirizzi IP, dati del browser o posizioni geografiche durante l'invio della segnalazione.
+                    </p>
+                </section>
+
+                <section class="mb-5">
+                    <h3 class="fw-bold h4 mb-3 text-primary">
+                        <i class="fa-solid fa-lock me-2"></i> Crittografia dei Codici
+                    </h3>
+                    <p class="text-secondary">
+                        Per garantire che nessuno possa intercettare la tua sessione, utilizziamo un doppio livello di sicurezza per il tuo <strong>Codice Univoco</strong>:
+                    </p>
+                    <ul class="list-group list-group-flush mb-3">
+                        <li class="list-group-item border-0 px-0">
+                            <span class="crypto-badge me-2">Data Protection API</span>
+                            Ogni codice viene criptato prima di essere trasmesso via URL. Questo impedisce attacchi di tipo "Brute Force".
+                        </li>
+                        <li class="list-group-item border-0 px-0">
+                            <span class="crypto-badge me-2">Hashing a Riposo</span>
+                            I dati salvati nel database sono protetti da algoritmi di cifratura che ne rendono impossibile la lettura in caso di accesso non autorizzato.
+                        </li>
+                    </ul>
+                </section>
+
+                <section class="mb-5">
+                    <h3 class="fw-bold h4 mb-3 text-primary">
+                        <i class="fa-solid fa-file-arrow-up me-2"></i> Gestione degli Allegati
+                    </h3>
+                    <p class="text-secondary">
+                        Gli allegati caricati vengono rinominati automaticamente con identificativi casuali (GUID) per eliminare qualsiasi riferimento al nome file originale che potrebbe contenere dati personali.
+                        Tutti i file sono conservati in un'area sicura del server non accessibile pubblicamente.
+                    </p>
+                </section>
+
+                <hr class="my-5" />
+
+                <div class="text-center">
+                    <p class="text-muted small">
+                        Ultimo aggiornamento: @DateTime.Now.ToString("MMMM yyyy") <br />
+                        In conformità con il Regolamento (UE) 2016/679 (GDPR) e la normativa Whistleblowing.
+                    </p>
+                    <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4 mt-3">
+                        <i class="fa-solid fa-arrow-left me-2"></i> Torna alla Home
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -39,7 +39,22 @@ namespace ProgettoIUM.Web.Features.Compilazione
 
         public List<string> CategorieDisponibili { get; set; } = new()
         {
-            "Frode", "Corruzione", "Molestie", "Sicurezza Informatica", "Altro"
+            "Frode e Corruzione",
+            "Conflitto di Interesse",
+            "Violazione della Privacy / GDPR",
+            "Abusi e Molestie",
+            "Discriminazione",
+            "Sicurezza sul Lavoro",
+            "Sicurezza Informatica / Cybersecurity",
+            "Violazione delle Norme Ambientali",
+            "Violazione delle Norme Antitrust",
+            "Irregolarità Contabili o Finanziarie",
+            "Violazione del Codice Etico",
+            "Gestione Inappropriata di Risorse",
+            "Abuso di Potere",
+            "Ostacolo alle Indagini / Ritorsioni",
+            "Altro"
         };
+
     }
 }

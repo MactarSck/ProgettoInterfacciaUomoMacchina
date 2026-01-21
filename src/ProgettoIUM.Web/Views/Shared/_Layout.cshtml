@@ -27,7 +27,7 @@
                        asp-controller="Home" asp-action="Index">About</a>
 
                     <a class="nav-link p-0 fw-medium small text-black"
-                       asp-controller="Home" asp-action="Index">Privacy</a>
+                       asp-controller="Home" asp-action="Privacy">Privacy</a>
                 </nav>
 
                 <div class="flex-grow-1 text-center">
@@ -36,22 +36,41 @@
                     </a>
                 </div>
 
+
                 <div class="d-flex align-items-center justify-content-end flex-grow-1 gap-3">
-                    @if (identity.IsAuthenticated)
-                    {
-                        <a asp-controller="Login" asp-action="Logout" class="text-decoration-none d-flex align-items-center">
-                            <i class="fa-solid fa-door-open text-dark fs-4"></i>
-                            <span class="ms-2 text-dark">Logout</span>
-                        </a>
-                    }
-                    else
-                    {
-                        <a asp-controller="Login" asp-action="Login" class="text-decoration-none d-flex align-items-center">
-                            <i class="fa-solid fa-shield-halved text-dark fs-4"></i>
-                            <span class="ms-2 text-dark">Area Riservata</span>
-                        </a>
-                    }
+
+                    <div class="dropdown">
+                        <button class="btn btn-link text-dark p-0" type="button" id="userMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa-solid fa-user-circle fs-2"></i>
+                        </button>
+
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <li>
+                                    <form asp-controller="Login" asp-action="Logout" method="post" class="m-0">
+                                        <button type="submit" class="dropdown-item">
+                                            <i class="fa-solid fa-door-open me-2"></i>
+                                            Logout
+                                        </button>
+                                    </form>
+                                </li>
+                            }
+                            else
+                            {
+                                <li>
+                                    <a asp-controller="Login" asp-action="Login" class="dropdown-item">
+                                        <i class="fa-solid fa-shield-halved me-2"></i>
+                                        Area Riservata
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+
                 </div>
+
+
 
                 <button class="navbar-toggler text-dark border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
                     <i class="fa-solid fa-bars"></i>
@@ -64,7 +83,6 @@
     @RenderSection("pageSubtitle", false)
     @RenderBody()
 </div>
-
 @section googlehead{
     @*<script async src="https://www.googletagmanager.com/gtag/js?id=UA-"></script>
     <script>

@@ -1,50 +1,88 @@
-﻿.card-nuova, .card-consulta {
-    /* Ridotta da 560px a 480px per un aspetto più compatto */
-    min-height: 480px;
+﻿
+:root {
+    --bg-nuova: #CFE2FF;
+    --bg-consulta: #FFFFFF;
+    --btn-blue: #67A6FF;
+    --btn-grey: #8c8c8c;
+    --text-dark: #333333;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+}
+
+body {
+    background: linear-gradient(180deg, #FFFFFF 0%, #ECECEC 91%);
+    background-attachment: fixed;
+    color: var(--text-dark);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+
+.card-nuova, .card-consulta {
+    min-height: 560px;
     display: flex;
     flex-direction: column;
-    padding: 30px; /* Aggiunto padding interno per gestire meglio gli spazi */
-    background-color: #FFFFFF;
     border: none;
-    border-radius: 28px; /* Leggermente ridotto per adattarsi alla card più piccola */
-    transition: transform 0.2s, box-shadow 0.2s;
-    /* Ombra leggermente più delicata per non appesantire la card piccola */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1), 0 8px 24px rgba(0, 0, 0, 0.08);
+    border-radius: 32px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
 }
 
 .card-nuova {
-    background-color: #CFE2FF;
+    background-color: var(--bg-nuova);
 }
 
-/* Ridimensionamento Icona: 5rem era molto grande, 3.5rem o 4rem è più bilanciato */
+.card-consulta {
+    background-color: var(--bg-consulta);
+}
+
+    
+    .card-nuova:hover, .card-consulta:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15) !important;
+    }
+
 .icon-box {
-    font-size: 3.5rem;
-    color: #333;
-    margin-bottom: 15px;
+    font-size: 5rem;
+    color: var(--text-dark);
+    margin: 1.5rem 0;
 }
 
-/* Ridimensionamento Pulsante: leggermente meno alto */
 .btn-seckure {
     display: block;
     width: 100%;
-    padding: 12px 0; /* Ridotto da 15px */
-    border-radius: 10px;
+    padding: 15px 0;
+    border-radius: 12px;
     font-weight: bold;
-    font-size: 1rem; /* Ridotto da 1.1rem */
+    font-size: 1.1rem;
     text-transform: uppercase;
     border: none;
-    transition: all 0.2s ease;
+    transition: filter 0.2s, transform 0.1s;
     text-decoration: none;
     text-align: center;
 }
 
-.card-nuova:hover, .card-consulta:hover {
-    transform: translateY(-5px);
-    /* L'ombra aumenta leggermente al passaggio per dare profondità */
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+.btn-custom-blue {
+    background-color: var(--btn-blue);
+    color: white !important;
 }
 
-.spacer-bottom {
-    margin-top: auto;
-    width: 100%;
+.btn-custom-grey {
+    background-color: var(--btn-grey);
+    color: white !important;
 }
+
+.btn-seckure:hover {
+    filter: brightness(0.9);
+}
+
+.btn-seckure:active {
+    transform: scale(0.98);
+}
+
+/* Input Form */
+.

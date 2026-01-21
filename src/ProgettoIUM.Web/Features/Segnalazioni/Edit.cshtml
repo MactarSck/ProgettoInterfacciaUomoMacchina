@@ -8,32 +8,40 @@
 }
 
 @section pageTitle {
-   
-    <nav class="navbar navbar-expand navbar-light flex-wrap px-4">
-        <div class="navbar-brand text-truncate fw-bold">
-            @ViewData["Title"]
-        </div>
-        <div class="ms-auto d-flex align-items-center">
-            <button type="button" class="btn btn-primary px-4 rounded-pill shadow-sm"
-                    onclick="document.getElementById('edit-form-submitter').click()">
-                <i class="fa-solid fa-floppy-disk"></i>&nbsp;Salva
-            </button>
-            <a asp-action="Index"
-               asp-controller="Segnalazioni"
-               class="btn btn-outline-secondary px-2 pill shadow-sm">
-                <i class="fa-solid fa-arrow-left"></i>&nbsp;Esci
-            </a>
-        </div>
+    <nav class="navbar navbar-expand navbar-light px-5 py-4 border-bottom">
+        <div class="d-flex align-items-center w-100">
 
+            
+            <div class="fw-bold text-uppercase text-truncate"
+                 style="letter-spacing: 1.2px; font-size: 1.05rem;">
+                @ViewData["Title"]
+            </div>
+
+            
+            <div class="ms-auto d-flex align-items-center gap-3">
+                <button type="button"
+                        class="btn btn-primary px-5 rounded-pill shadow-sm"
+                        onclick="document.getElementById('edit-form-submitter').click()">
+                    <i class="fa-solid fa-floppy-disk me-2"></i> Salva
+                </button>
+
+                <a asp-action="Index"
+                   asp-controller="Segnalazioni"
+                   class="btn btn-outline-secondary px-4 rounded-pill shadow-sm">
+                    <i class="fa-solid fa-arrow-left me-2"></i> Esci
+                </a>
+            </div>
+
+        </div>
     </nav>
-    <hr>
 }
+
 
 <div id="vue-app">
     <div class="container-lg py-4">
         <div class="row">
             <div class="col-12">
-                @* SEZIONE AMMINISTRAZIONE (Ispirata a image_97f3eb.png) *@
+                @* SEZIONE AMMINISTRAZIONE  *@
                 <form method="post" asp-action="Edit" id="edit-form">
                     @Html.AntiForgeryToken()
                     <input id="edit-form-submitter" class="d-none" type="submit" />
@@ -44,7 +52,7 @@
                         <div class="row g-4 px-3 pb-2">
                             <div class="col-md-6">
                                 <label class="small fw-bold mb-2 d-block text-dark">Stato Segnalazione</label>
-                                <select asp-for="StatoAttuale"  class="form-select modern-input">
+                                <select asp-for="StatoAttuale" class="form-select modern-input" id="stato-select">
                                     <option value="Da prendere in carico">Da prendere in carico</option>
                                     <option value="In lavorazione">In lavorazione</option>
                                     <option value="Chiusa">Chiusa</option>
@@ -66,38 +74,59 @@
                             </div>
                             <div class="col-md-6">
                                 <label class="small fw-bold mb-2 d-block text-dark">Esito</label>
-                                <input asp-for="Esito" class="form-control modern-input" placeholder="Inserisci esito..." />
+                                <input asp-for="Esito" class="form-control modern-input"  id="esito-input" />
                             </div>
                         </div>
                     </div>
                 </form>
                 <hr>
 
-                @* SEZIONE CHAT (Gestita da VUE) *@
-                <div class="mb-5 text-center">
-                    <h6 class="fw-bold text-uppercase small mb-4">Chat Utente</h6>
-                    <div class="mx-auto" style="max-width: 700px;">
-                        <div id="chatContainer" class="chat-area mb-3 p-3 bg-white rounded-4 border shadow-sm" style="height: 300px; overflow-y: auto;">
-                            <div v-for="msg in model.Messaggi" :class="['mb-3', msg.DaOperatore ? 'text-end' : 'text-start']">
-                                <div :class="['d-inline-block p-3 rounded-4 shadow-sm small', msg.DaOperatore ? 'bg-primary text-white' : 'bg-light border']">
-                                    {{ msg.Testo }}
-                                </div>
-                                <div class="text-muted" style="font-size: 0.7rem;">{{ msg.Data }}</div>
-                            </div>
-                        </div>
+                @* --- SEZIONE STORICO STATI --- *@
 
-                        <div class="d-flex gap-2">
-                            <input type="text" v-model="messaggioCorrente" @@keyup.enter="inviaMessaggio"
-                                   class="form-control border-0 shadow-sm p-3 rounded-4" placeholder="Scrivi un messaggio...">
-                            <button type="button" @@click="inviaMessaggio" class="btn btn-primary rounded-4 px-4 shadow-sm">
-                                <i class="fa-solid fa-paper-plane"></i>
-                            </button>
-                        </div>
+                <div class="timeline-card p-4">
+
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="fw-semibold text-muted small">
+                            @Model.StoricoStati.Count() stati totali
+                        </span>
+
+                    </div>
+
+                    <div class="timeline timeline-collapsed" id="timeline-container">
+                        @foreach (var s in Model.StoricoStati)
+                        {
+                            <div class="timeline-item">
+                                <div class="timeline-icon">
+                                    <i class="fa-solid fa-circle"></i>
+                                </div>
+                                <div class="timeline-content">
+                                    <div class="timeline-time">@s.DataCambio.ToString("dd/MM/yyyy HH:mm")</div>
+                                    <div class="timeline-state">@s.StatoNuovo</div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+
+
+
+
+
+                @* --- SEZIONE CHAT --- *@
+                <div class="mb-5">
+                    <div class="text-center mb-3">
+                        <h6 class="fw-bold text-uppercase small m-0" style="letter-spacing: 2px;">Comunicazioni con l'utente</h6>
+                        <small class="text-muted">Utilizza questo spazio per fornire ulteriori dettagli all'utente'</small>
+                    </div>
+                    <div class="mx-auto bg-white border rounded-4 p-5 shadow-sm text-center" style="max-width: 850px; min-height: 200px; border-style: dashed !important;">
+                        <i class="fa-regular fa-comments text-muted fs-1 mb-3 opacity-50"></i>
+                        <p class="text-muted mb-0">Non ci sono ancora messaggi in questa conversazione.</p>
+                      
                     </div>
                 </div>
                 <hr>
-
-                @* SEZIONE INFORMAZIONI (Ispirata a image_97f6d0.png) *@
+                @* SEZIONE INFORMAZIONI *@
                 <div class="custom-gray-card mb-5">
                     <h5 class="text-center fw-bold text-uppercase mb-4 pt-2" style="letter-spacing: 2px;">Informazioni</h5>
 
@@ -148,3 +177,166 @@
     </div>
 </div>
 
+
+
+
+<style>
+
+    html, body {
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+    }
+
+    body {
+        background: linear-gradient(180deg, #FFFFFF 0%, #ECECEC 91%);
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+    }
+
+   
+
+
+    .timeline {
+        .timeline-card {
+            background: #ffffff;
+            border-radius: 18px;
+            border: 1px solid rgba(0,0,0,0.08);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .timeline {
+            position: relative;
+            margin: 0;
+            padding-left: 30px;
+        }
+
+            .timeline::before {
+                content: "";
+                position: absolute;
+                left: 18px;
+                top: 0;
+                bottom: 0;
+                width: 2px;
+                background: linear-gradient(180deg, rgba(13,110,253,0.9), rgba(13,110,253,0.3));
+                border-radius: 999px;
+            }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 18px;
+            padding-left: 18px;
+        }
+
+        .timeline-icon {
+            position: absolute;
+            left: -2px;
+            top: 0;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.85);
+            border: 2px solid rgba(13,110,253,0.35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 18px rgba(0,0,0,0.07);
+            backdrop-filter: blur(6px);
+        }
+
+            .timeline-icon i {
+                font-size: 10px;
+                color: #0d6efd;
+            }
+
+        .timeline-content {
+            padding: 10px 12px;
+            background: rgba(255,255,255,0.9);
+            border-radius: 12px;
+            border: 1px solid rgba(0,0,0,0.06);
+            box-shadow: 0 8px 18px rgba(0,0,0,0.07);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+            .timeline-content:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            }
+
+        .timeline-time {
+            font-size: 0.78rem;
+            color: #6c757d;
+        }
+
+        .timeline-state {
+            font-weight: 700;
+            font-size: 0.95rem;
+            margin-top: 3px;
+            letter-spacing: 0.2px;
+        }
+
+        .timeline-collapsed {
+            max-height: 260px;
+            overflow: hidden;
+            position: relative;
+        }
+
+            .timeline-collapsed::after {
+                content: "";
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                height: 60px;
+                background: linear-gradient(transparent, white);
+                pointer-events: none;
+            }
+
+        .timeline-expanded {
+            max-height: none;
+        }
+
+            .timeline-expanded::after {
+                display: none;
+            }
+      }
+
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const toggleBtn = document.getElementById("toggle-timeline");
+        const timeline = document.getElementById("timeline-container");
+
+        let expanded = false;
+
+        toggleBtn.addEventListener("click", function () {
+            expanded = !expanded;
+
+            timeline.classList.toggle("timeline-expanded", expanded);
+            timeline.classList.toggle("timeline-collapsed", !expanded);
+
+            toggleBtn.textContent = expanded ? "Mostra meno" : "Mostra tutto";
+        });
+
+        const statoSelect = document.getElementById("stato-select");
+        const esitoInput = document.getElementById("esito-input");
+
+        function aggiornaEsito() {
+            if (statoSelect.value === "Chiusa") {
+                esitoInput.disabled = false;
+                esitoInput.required = true;
+                esitoInput.classList.remove("bg-light");
+            } else {
+                esitoInput.disabled = true;
+                esitoInput.required = false;
+                esitoInput.value = "";
+            }
+        }
+
+        aggiornaEsito();
+        statoSelect.addEventListener("change", aggiornaEsito);
+    });
+</script>

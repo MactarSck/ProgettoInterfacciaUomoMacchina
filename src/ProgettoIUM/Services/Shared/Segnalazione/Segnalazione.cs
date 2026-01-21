@@ -28,6 +28,8 @@ namespace ProgettoIUM.Services.Shared.Segnalazione
         public string? Esito { get; set; }
         public DateTime? DataRisoluzionePrevista { get; set; }
 
+        public virtual ICollection<StoricoStato> StoricoStati { get; set; }
+
 
 
 

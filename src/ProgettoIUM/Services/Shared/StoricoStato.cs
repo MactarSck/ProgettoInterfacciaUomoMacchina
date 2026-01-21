@@ -13,13 +13,11 @@ namespace ProgettoIUM.Services.Shared
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
-        public int SegnalazioneId { get; set; }
-        public string Stato { get; set; }
-        public DateTime DataAggiornamento { get; set; }
-        public string Note { get; set; }
+        public Guid SegnalazioneId { get; set; }
+        public string StatoPrecedente { get; set; }
+        public string StatoNuovo { get; set; }
+        public DateTime DataCambio { get; set; }
 
-        public int UtenteOperatatoreId { get; set; }
-
-        public virtual User Operatore { get; set; }
+       
     }
 }

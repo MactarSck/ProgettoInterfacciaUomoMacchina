@@ -1,7 +1,9 @@
-﻿using ProgettoIUM.Web.Infrastructure;
+﻿using ProgettoIUM.Services.Shared;
+using ProgettoIUM.Web.Infrastructure;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using ProgettoIUM.Services.Shared;
+using System.Linq;
 
 
 namespace ProgettoIUM.Web.Features.Segnalazioni
@@ -36,6 +38,8 @@ namespace ProgettoIUM.Web.Features.Segnalazioni
 
         public DateTime? DataRisoluzionePrevista { get; set; }
 
+        public List<StoricoStato> StoricoStati { get; set; }
+
 
 
         public string ToJson()
@@ -60,6 +64,9 @@ namespace ProgettoIUM.Web.Features.Segnalazioni
             DataRisoluzionePrevista = dto.DataRisoluzionePrevista;
             NomeFile = dto.NomeFile;
             PathFile = dto.PathFile;
+            StoricoStati = dto.StoricoStati?
+                   .OrderByDescending(x => x.DataCambio)
+                   .ToList() ?? new List<StoricoStato>();
         }
 
 

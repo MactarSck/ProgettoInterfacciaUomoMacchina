@@ -37,4 +37,20 @@
     color: #666;
 }
 
+html, body {
+    margin: 0;
+    padding: 0;
+    /* Assicura che lo sfondo copra sempre tutta l'altezza dello schermo */
+    min-height: 100vh;
+}
+
+body {
+    /* Gradiente esatto dal tuo file Figma */
+    background: linear-gradient(180deg, #FFFFFF 0%, #ECECEC 91%);
+    /* 'fixed' impedisce allo sfondo di muoversi durante lo scroll */
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+}
+
+
 

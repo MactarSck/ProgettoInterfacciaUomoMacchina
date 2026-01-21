@@ -41,7 +41,19 @@ namespace ProgettoIUM.Services.Shared
                 };
                 _dbContext.Segnalazioni.Add(s);
             }
+            if (s.StatoAttuale != cmd.StatoAttuale)
+            {
+                var storico = new StoricoStato
+                {
+                    SegnalazioneId = s.Id,
+                    StatoPrecedente = s.StatoAttuale,
+                    StatoNuovo = cmd.StatoAttuale,
+                    DataCambio = DateTime.UtcNow
+                };
+             
 
+                _dbContext.StoricoStati.Add(storico);
+            }
             s.StatoAttuale = cmd.StatoAttuale;
             s.Esito = cmd.Esito;
             s.DataRisoluzionePrevista = cmd.DataRisoluzionePrevista;

@@ -94,12 +94,15 @@ namespace ProgettoIUM.Web.Features.Login
             return View(model);
         }
 
-        [HttpGet]
-        public async virtual Task<IActionResult> Logout()
+        [HttpPost]
+        public virtual async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
-            Alerts.AddSuccess(this, "Utente scollegato correttamente");
+            Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
+            Response.Headers["Pragma"] = "no-cache";
+            Response.Headers["Expires"] = "0";
+
             return RedirectToAction(MVC.Home.Index());
         }
     }

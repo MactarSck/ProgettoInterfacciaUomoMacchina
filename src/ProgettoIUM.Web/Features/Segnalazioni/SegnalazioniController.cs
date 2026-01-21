@@ -1,12 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
+using ProgettoIUM.Services.Shared;
 using ProgettoIUM.Web.Infrastructure;
 using ProgettoIUM.Web.SignalR;
 using ProgettoIUM.Web.SignalR.Hubs.Events;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using ProgettoIUM.Services.Shared;
 
 namespace ProgettoIUM.Web.Features.Segnalazioni
 {
@@ -42,13 +44,32 @@ namespace ProgettoIUM.Web.Features.Segnalazioni
 
             if (id.HasValue)
             {
-                model.SetSegnalazioni(await _sharedService.Query(new SegnalazioniDetailQuery
+                var dto = await _sharedService.Query(new SegnalazioniDetailQuery
                 {
                     Id = id.Value,
-                }));
+                });
+
+                model.SetSegnalazioni(dto);
+
+                var storico = dto.StoricoStati?
+             .OrderByDescending(x => x.DataCambio)
+             .ToList() ?? new List<StoricoStato>();
+
+             
+                if (!storico.Any(s => s.StatoNuovo == "Segnalazione creata"))
+                {
+                    storico.Add(new StoricoStato
+                    {
+                        DataCambio = dto.DataInvio,
+                        StatoNuovo = "Segnalazione creata"
+                    });
+                }
+
+                model.StoricoStati = storico
+                    .OrderByDescending(x => x.DataCambio)
+                    .ToList();
+
             }
-
-
 
             return View(model);
         }
