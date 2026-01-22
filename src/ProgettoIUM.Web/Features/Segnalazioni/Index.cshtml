@@ -11,38 +11,89 @@
     <hr class="mt-0" style="height: 3px; opacity: 1;">
 
     <div class="mb-5">
-        <h5 class="fw-bold mb-3">Elenco segnalazioni</h5>
+        <form asp-action="Index" method="get" id="searchForm" class="mb-4">
+            <div class="row align-items-end g-3 mb-3">
+                <div class="col-md-4">
+                    <label asp-for="Filter" class="small fw-bold text-muted mb-1">Cerca (Parola chiave)</label>
+                    <div class="input-group input-group-sm shadow-sm">
+                        <span class="input-group-text bg-white border-end-0 rounded-start">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </span>
+                        <input asp-for="Filter" class="form-control form-control-sm border-start-0 rounded-end" placeholder="Codice, Luogo..." />
+                    </div>
+                </div>
 
+                <div class="col-md-3">
+                    <label asp-for="Dal" class="small fw-bold text-muted mb-1">Data Invio (Dal)</label>
+                    <input asp-for="Dal" type="date" class="form-control form-control-sm shadow-sm" />
+                </div>
 
-      
-        <form asp-action="Index" method="get" class="d-flex align-items-end gap-3 mb-4 flex-wrap">
-            <div class="form-group mb-0" style="min-width: 260px;">
-                <label asp-for="Filter" class="small fw-bold d-block mb-1">Cerca</label>
-
-                <div class="input-group input-group-sm shadow-sm">
-                    <span class="input-group-text bg-white border-end-0 rounded-start">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </span>
-
-                    <input asp-for="Filter" class="form-control form-control-sm border-start-0 rounded-end" placeholder="Inserisci parola chiave..." />
+                <div class="col-md-5 d-flex align-items-center gap-3">
+                    <button type="submit" class="btn btn-primary btn-sm rounded-pill px-4 shadow-sm internal-link">
+                        <i class="fa-solid fa-filter me-2"></i>Filtra
+                    </button>
+                    <a href="javascript:void(0)" id="btnToggleFilters" class="small text-decoration-none fw-bold">
+                        Filtri avanzati <i class="fa-solid fa-chevron-down ms-1"></i>
+                    </a>
+                    <a asp-action="Index" class="small text-danger text-decoration-none border-start ps-3 internal-link">
+                        Azzera filtri
+                    </a>
                 </div>
             </div>
 
-            <div class="d-flex gap-2 align-items-center">
-                <button type="submit" class="btn btn-primary btn-sm rounded-pill px-4 shadow-sm">
-                    <i class="fa-solid fa-filter me-2"></i>Filtra
-                </button>
+            <div id="extraFilters" class="row g-3 p-3 " style="display: none;">
+                <div class="col-md-3">
+                    <label asp-for="FPriorità" class="small fw-bold text-muted mb-1">Priorità</label>
+                    <select asp-for="FPriorità" class="form-select form-select-sm">
+                        <option value="">Tutte</option>
+                        <option value="Alta">Alta</option>
+                        <option value="Media">Media</option>
+                        <option value="Bassa">Bassa</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label asp-for="FStato" class="small fw-bold text-muted mb-1">Stato</label>
+                    <select asp-for="FStato" class="form-select form-select-sm">
+                        <option value="">Tutti</option>
+                        <option value="Nuova - In attesa di verifica">Nuova - In attesa di verifica</option>
+                        <option value="In lavorazione">In lavorazione</option>
+                        <option value="Chiusa">Chiusa</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label asp-for="Fluogo" class="small fw-bold text-muted mb-1">Luogo</label>
+                    <input asp-for="Fluogo" class="form-control form-control-sm" />
+                </div>
 
-                <a asp-action="Index" class="btn btn-outline-secondary btn-sm rounded-pill px-4 shadow-sm internal-link">
-                    <i class="fa-solid fa-eraser me-2"></i>Azzera
-                </a>
-
-                  <a id="refreshTable" class="fa-solid fa-refresh text-decoration-none"></a>
-
-
-            
+                <div class="col-md-3">
+                    <label asp-for="Fcategoria" class="small fw-bold text-muted mb-1">Categoria</label>
+                    <select asp-for="Fcategoria" class="form-select form-select-sm">
+                        <option value="">Tutte</option>
+                        @foreach (var cat in (List<string>)ViewBag.Categorie)
+                        {
+                            <option value="@cat">@cat</option>
+                        }
+                    </select>
+                </div>
             </div>
         </form>
+
+     
+        <div class="d-flex align-items-center justify-content-between mb-3">
+            <h5 class="fw-bold mb-0">Elenco segnalazioni</h5>
+
+            <div id="newAlertsText" class="small fw-bold text-danger">
+                Nuove da controllare: <span id="newCount">0</span>
+            </div>
+        </div>
+
+       
+        <div class="form-check form-switch mb-3">
+            <input class="form-check-input" type="checkbox" id="toggleClosed">
+            <label class="form-check-label small fw-bold text-muted" for="toggleClosed">
+                Nascondi segnalazioni chiuse
+            </label>
+        </div>
 
         <div class="table-responsive border-0 shadow-sm rounded-4 bg-white">
             <table class="table table-hover align-middle mb-0">
@@ -152,54 +203,76 @@
         background-color: #74a2ff;
         border-color: #74a2ff;
     }
-
-    #refreshTable {
-        float: right; 
-        font-size: 1.1rem; 
-        cursor: pointer; 
-        color: #0d6efd; 
-        padding: 8px 10px;
-    }
-
-        #refreshTable:hover {
-            color: #0746c8;
-        }
-
 </style>
 
 <script>
-    const logoutUrl = '@Url.Action("Logout", "Login")';
-    let internalNavigation = false;
+    document.getElementById("btnToggleFilters").addEventListener("click", function () {
+        const extra = document.getElementById("extraFilters");
+        const isHidden = extra.style.display === "none";
+        extra.style.display = isHidden ? "flex" : "none";
+        this.innerHTML = isHidden ?
+            'Chiudi filtri <i class="fa-solid fa-chevron-up ms-1"></i>' :
+            'Filtri avanzati <i class="fa-solid fa-chevron-down ms-1"></i>';
+    });
 
-   
-    let isReload = false;
+    const toggleClosed = document.getElementById("toggleClosed");
 
-    document.addEventListener("click", function (e) {
-        const link = e.target.closest("a.internal-link");
-        if (link) {
-            internalNavigation = true;
-        }
+    function applyHideClosed() {
+        const hideClosed = toggleClosed.checked;
+        const rows = document.querySelectorAll("tbody tr");
+
+        rows.forEach(row => {
+            const stato = row.querySelector("td:nth-child(3)").innerText.trim();
+            row.style.display = (hideClosed && stato === "Chiusa") ? "none" : "";
+        });
+
+        updateNewCount();
+    }
+
+    function updateNewCount() {
+        const rows = document.querySelectorAll("tbody tr");
+        let count = 0;
+
+        rows.forEach(row => {
+            const stato = row.querySelector("td:nth-child(3)").innerText.trim();
+            if (stato === "Nuova - In attesa di verifica" && row.style.display !== "none") {
+                count++;
+            }
+        });
+
+        document.getElementById("newCount").innerText = count;
+    }
+
+
+    toggleClosed.addEventListener("change", () => {
+        localStorage.setItem("hideClosedReports", toggleClosed.checked ? "true" : "false");
+        applyHideClosed();
     });
 
 
-    document.getElementById("refreshTable").addEventListener("click", function () {
-        isReload = true;
-        location.reload();
-    });
+    window.addEventListener("DOMContentLoaded", () => {
+        const hasValues = @Json.Serialize(
+                        !string.IsNullOrEmpty(Model.FStato) ||
+                        !string.IsNullOrEmpty(Model.FPriorità) ||
+                        !string.IsNullOrEmpty(Model.Fcategoria) ||
+                        !string.IsNullOrEmpty(Model.Fluogo) ||
+                        !string.IsNullOrEmpty(Model.Fesito) ||
+                        Model.Dal != null ||
+                        !string.IsNullOrEmpty(Model.Filter)
+                );
 
-     window.addEventListener("beforeunload", function (e) {
-   
-        if (isReload || internalNavigation) {
-            return;
+        if (hasValues) {
+            document.getElementById("btnToggleFilters").click();
         }
 
-        navigator.sendBeacon(logoutUrl);
-    window.addEventListener("pagehide", function () {
-        
-        if (isReload) return;
+        const savedValue = localStorage.getItem("hideClosedReports");
 
-        if (!internalNavigation) {
-            navigator.sendBeacon(logoutUrl);
+        if (savedValue !== null) {
+            toggleClosed.checked = (savedValue === "true");
+        } else {
+            toggleClosed.checked = false; 
         }
+
+        applyHideClosed();
     });
 </script>

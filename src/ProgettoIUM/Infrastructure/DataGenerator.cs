@@ -42,11 +42,11 @@ namespace ProgettoIUM.Infrastructure
                     Id = Guid.NewGuid(),
                     CodiceUnivoco = "MT-9942-RS",
                     DataInvio = DateTime.Now.AddDays(-2),
-                    Categoria = "Manutenzione",
+                    Categoria = "Violazione della Privacy / GDPR",
                     Luogo = "ONIT SANITA Cesena",
                     Reparto = "Produzione",
                     Descrizione = "Rilevato guasto meccanico alla linea 3.",
-                    StatoAttuale = "Aperta",
+                    StatoAttuale = "In lavorazione",
                     Priorità = "Media",
                     Esito = ""
                 },
@@ -55,24 +55,24 @@ namespace ProgettoIUM.Infrastructure
                     Id = Guid.NewGuid(),
                     CodiceUnivoco = "SI-1023-QA",
                     DataInvio = DateTime.Now.AddHours(-5),
-                    Categoria = "Sicurezza Informatica",
+                    Categoria = "Sicurezza sul Lavoro",
                     Luogo = "Forli VEM",
                     Reparto = "Logistica",
                     Descrizione = "Uscita di emergenza ostruita da imballaggi.",
-                    StatoAttuale = "Chiusa",
+                    StatoAttuale = "Nuova - In attesa di verifica",
                     Priorità = "Bassa",
-                    Esito = "Risolto - Area sgomberata"
+                    Esito = ""
                 },
                 new Segnalazione
                 {
                     Id = Guid.NewGuid(),
                     CodiceUnivoco = "IT-5512-LB",
                     DataInvio = DateTime.Now.AddDays(-1),
-                    Categoria = "Sicurezza Informatica",
+                    Categoria = "Sicurezza Informatica / Cybersecurity",
                     Luogo = "MAGGIOLI Savignano",
                     Reparto = "IT",
                     Descrizione = "Problemi di connessione al server centrale.",
-                    StatoAttuale = "In Lavorazione",
+                    StatoAttuale = "In lavorazione",
                     Priorità = "Alta",
                     Esito = ""
                 },
@@ -85,9 +85,9 @@ namespace ProgettoIUM.Infrastructure
                     Luogo = "Sicap forli",
                     Reparto = "HR",
                     Descrizione = "Rilevato guasto meccanico alla linea 3.",
-                    StatoAttuale = "Aperta",
+                    StatoAttuale = "Chiusa",
                     Priorità = "Media",
-                    Esito = ""
+                    Esito = "Confermato"
                 }
 
 

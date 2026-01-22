@@ -23,6 +23,12 @@ namespace ProgettoIUM.Web.Features.Segnalazioni
 
         [Display(Name = "Cerca")]
         public string Filter { get; set; }
+        public DateTime? Dal { get; set; }
+        public string FStato{ get; set; }
+        public string FPriorità { get; set; }
+        public string Fcategoria { get; set; }
+        public string Fluogo { get; set; }
+        public string Fesito { get; set; }
 
         internal void SetSegnalazioni(SegnalazioniIndexDTO segnalazioniIndexDTO)
         {
@@ -37,6 +43,12 @@ namespace ProgettoIUM.Web.Features.Segnalazioni
             return new SegnalazioneIndexQuery
             {
                 Filter = Filter,
+                Dal = Dal,
+                Fesito = Fesito,
+                Fcategoria = Fcategoria,
+                FPriorità = FPriorità,
+                FStato = FStato,
+                Fluogo = Fluogo,
                 Paging = new ProgettoIUM.Infrastructure.Paging
                 {
                     OrderBy = OrderBy,

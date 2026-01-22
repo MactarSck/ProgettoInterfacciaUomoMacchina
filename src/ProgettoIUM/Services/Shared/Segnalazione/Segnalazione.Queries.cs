@@ -31,7 +31,12 @@ namespace ProgettoIUM.Services.Shared
     {
         public Guid IdCurrentSegnalazione { get; set; }
         public string Filter { get; set; }
-
+        public DateTime? Dal { get; set; }
+        public string FStato { get; set; }
+        public string FPriorità { get; set; }
+        public string Fcategoria { get; set; }
+        public string Fluogo { get; set; }
+        public string Fesito { get; set; }
         public Paging Paging { get; set; }
     }
 
@@ -122,38 +127,75 @@ namespace ProgettoIUM.Services.Shared
             var queryable = _dbContext.Segnalazioni
                 .Where(x => x.Id != qry.IdCurrentSegnalazione);
 
+            // 1. FILTRO GENERALE
             if (!string.IsNullOrWhiteSpace(qry.Filter))
             {
                 var filter = qry.Filter.Trim();
-
                 queryable = queryable.Where(x =>
                     x.Categoria.Contains(filter, StringComparison.OrdinalIgnoreCase) ||
                     x.Luogo.Contains(filter, StringComparison.OrdinalIgnoreCase) ||
                     x.StatoAttuale.Contains(filter, StringComparison.OrdinalIgnoreCase) ||
-                    x.Priorità.ToString().Contains(filter, StringComparison.OrdinalIgnoreCase) ||
+                    x.Priorità.Contains(filter, StringComparison.OrdinalIgnoreCase) ||
                     x.Esito.Contains(filter, StringComparison.OrdinalIgnoreCase)
                 );
             }
 
+            // 2. FILTRI SPECIFICI
+            if (qry.Dal.HasValue)
+            {
+                queryable = queryable.Where(x => x.DataInvio.Date >= qry.Dal.Value.Date);
+            }
+
+            if (!string.IsNullOrWhiteSpace(qry.Fluogo))
+            {
+                queryable = queryable.Where(x => x.Luogo.Contains(qry.Fluogo, StringComparison.OrdinalIgnoreCase));
+            }
+
+            if (!string.IsNullOrWhiteSpace(qry.FPriorità))
+            {
+                queryable = queryable.Where(x => x.Priorità == qry.FPriorità);
+            }
+
+            if (!string.IsNullOrWhiteSpace(qry.Fcategoria))
+            {
+                queryable = queryable.Where(x => x.Categoria == qry.Fcategoria);
+            }
+
+            if (!string.IsNullOrWhiteSpace(qry.FStato))
+            {
+                queryable = queryable.Where(x => x.StatoAttuale == qry.FStato);
+            }
+
+            if (!string.IsNullOrWhiteSpace(qry.Fesito))
+            {
+                queryable = queryable.Where(x => x.Esito.Contains(qry.Fesito, StringComparison.OrdinalIgnoreCase));
+            }
+
+            // 3. ESECUZIONE (Sempre fuori dagli IF)
+            var count = await queryable.CountAsync();
+
+            var items = await queryable
+                .ApplyPaging(qry.Paging)
+                .Select(x => new SegnalazioniIndexDTO.Segnalazione
+                {
+                    Id = x.Id,
+                    Stato = x.StatoAttuale,
+                    Priorità = x.Priorità,
+                    Luogo = x.Luogo,
+                    Categoria = x.Categoria,
+                    DataInvio = x.DataInvio,
+                    Esito = x.Esito
+                })
+                .ToArrayAsync();
+
             return new SegnalazioniIndexDTO
             {
-                Segnalazioni = await queryable
-                    .ApplyPaging(qry.Paging)
-                    .Select(x => new SegnalazioniIndexDTO.Segnalazione
-                    {
-                        Id = x.Id,
-                        Stato = x.StatoAttuale,
-                        Priorità = x.Priorità,
-                        Luogo = x.Luogo,
-                        Categoria = x.Categoria,
-                        DataInvio = x.DataInvio,
-                        Esito = x.Esito
-                    })
-                    .ToArrayAsync(),
-
-                Count = await queryable.CountAsync()
+                Segnalazioni = items,
+                Count = count
             };
         }
+
+
 
 
         /// <summary>

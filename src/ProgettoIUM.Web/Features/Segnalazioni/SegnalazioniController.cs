@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using ProgettoIUM.Services;
 using ProgettoIUM.Services.Shared;
+using ProgettoIUM.Web.Features.Compilazione;
 using ProgettoIUM.Web.Infrastructure;
 using ProgettoIUM.Web.SignalR;
 using ProgettoIUM.Web.SignalR.Hubs.Events;
@@ -35,7 +36,17 @@ namespace ProgettoIUM.Web.Features.Segnalazioni
         [HttpGet]
         public virtual async Task<IActionResult> Index(IndexViewModel model)
         {
-            var s = await _sharedService.Query(model.ToSegnalazioniIndexQuery());
+    
+            var query = model.ToSegnalazioniIndexQuery();
+
+         
+            var s = await _sharedService.Query(query);
+
+            var compilazioneVm = new CompilazioneViewModel();
+
+            ViewBag.Categorie = compilazioneVm.CategorieDisponibili;
+
+
             model.SetSegnalazioni(s);
 
             return View(model);

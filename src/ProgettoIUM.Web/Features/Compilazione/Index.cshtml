@@ -30,10 +30,19 @@
                     <span asp-validation-for="Categoria" class="text-danger"></span>
                 </div>
                 <div class="col-md-6">
-                    <label class="small fw-bold mb-2" >Data e Ora</label>
-                    <input type="datetime-local" class="form-control border-0 shadow-sm py-2" />
+                    <label class="small fw-bold mb-2">Data e Ora</label>
+                    <input asp-for="DataInvio"
+                           type="datetime-local"
+                           class="form-control border-0 shadow-sm py-2"
+                           value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")"
+                           readonly
+                           style="background-color: #e9ecef !important;" />
+
                     <span asp-validation-for="DataInvio" class="text-danger"></span>
                 </div>
+
+
+
                 <div class="col-md-6">
                     <label class="small fw-bold mb-2">Luogo</label>
                     <input type="text" asp-for="Luogo"  class="form-control border-0 shadow-sm py-2" />

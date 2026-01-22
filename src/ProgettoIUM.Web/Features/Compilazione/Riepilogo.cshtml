@@ -46,7 +46,9 @@
                             <span class="text-primary fw-bold">
                                 <i class="fa-solid fa-paperclip me-2"></i> @Model.Allegato.FileName
                             </span>
-                            
+                            <a href="@Model.PathFileGiaCaricato" target="_blank" class="btn btn-sm btn-primary rounded-pill px-4">
+                                <i class="fa-solid fa-download me-1"></i> Scarica
+                            </a>
                         </div>
                     }
                     else
@@ -88,7 +90,7 @@
            asp-route-Luogo="@Model.Luogo"
            asp-route-Reparto="@Model.Reparto"
            asp-route-Descrizione="@Model.Descrizione"
-           asp-route-DataInvio="@Model.DataInvio.ToString("yyyy-MM-ddTHH:mm:ss")"
+           asp-route-DataInvio="@Model.DataInvio.ToString("yyyy-MM-ddTHH:mm")"
            asp-route-NomeFileGiaCaricato="@Model.NomeFileGiaCaricato"
            asp-route-PathFileGiaCaricato="@Model.PathFileGiaCaricato"
            class="btn btn-secondary btn-md custom-btn-small">
