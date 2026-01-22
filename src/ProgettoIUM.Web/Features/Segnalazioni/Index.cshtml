@@ -99,7 +99,7 @@
             <table class="table table-hover align-middle mb-0">
                 <thead class="bg-light text-secondary text-uppercase" style="font-size: 0.7rem; letter-spacing: 1px;">
                     <tr>
-                        <th class="border-0 py-3 px-4">Codice</th>
+                        <th class="border-0">Codice</th>
                         <th class="border-0">Priorità</th>
                         <th class="border-0">Stato</th>
                         <th class="border-0">Luogo</th>
@@ -250,18 +250,15 @@
     });
 
 
-    window.addEventListener("DOMContentLoaded", () => {
-        const hasValues = @Json.Serialize(
+       window.addEventListener("DOMContentLoaded", () => {
+        const hasAdvancedFilters = @Json.Serialize(
                         !string.IsNullOrEmpty(Model.FStato) ||
                         !string.IsNullOrEmpty(Model.FPriorità) ||
                         !string.IsNullOrEmpty(Model.Fcategoria) ||
-                        !string.IsNullOrEmpty(Model.Fluogo) ||
-                        !string.IsNullOrEmpty(Model.Fesito) ||
-                        Model.Dal != null ||
-                        !string.IsNullOrEmpty(Model.Filter)
+                        !string.IsNullOrEmpty(Model.Fluogo)
                 );
 
-        if (hasValues) {
+        if (hasAdvancedFilters) {
             document.getElementById("btnToggleFilters").click();
         }
 
@@ -270,7 +267,7 @@
         if (savedValue !== null) {
             toggleClosed.checked = (savedValue === "true");
         } else {
-            toggleClosed.checked = false; 
+            toggleClosed.checked = false;
         }
 
         applyHideClosed();

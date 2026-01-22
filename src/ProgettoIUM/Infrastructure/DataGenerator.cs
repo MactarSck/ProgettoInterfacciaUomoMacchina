@@ -60,7 +60,7 @@ namespace ProgettoIUM.Infrastructure
                     Reparto = "Logistica",
                     Descrizione = "Uscita di emergenza ostruita da imballaggi.",
                     StatoAttuale = "Nuova - In attesa di verifica",
-                    Priorità = "Bassa",
+                    Priorità = "Non Definita",
                     Esito = ""
                 },
                 new Segnalazione
