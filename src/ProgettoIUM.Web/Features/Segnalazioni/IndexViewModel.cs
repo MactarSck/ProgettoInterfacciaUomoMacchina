@@ -30,6 +30,7 @@ namespace ProgettoIUM.Web.Features.Segnalazioni
         public string Fluogo { get; set; }
         public string Fesito { get; set; }
 
+
         internal void SetSegnalazioni(SegnalazioniIndexDTO segnalazioniIndexDTO)
         {
             Segnalazioni = segnalazioniIndexDTO.Segnalazioni.Select(x => new SegnalazioniIndexViewModel(x)).ToArray();

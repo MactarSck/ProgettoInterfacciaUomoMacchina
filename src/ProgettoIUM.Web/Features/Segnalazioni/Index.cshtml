@@ -19,7 +19,7 @@
                         <span class="input-group-text bg-white border-end-0 rounded-start">
                             <i class="fa-solid fa-magnifying-glass"></i>
                         </span>
-                        <input asp-for="Filter" class="form-control form-control-sm border-start-0 rounded-end" placeholder="Codice, Luogo..." />
+                        <input asp-for="Filter" class="form-control form-control-sm border-start-0 rounded-end" placeholder="Categoria, Luogo..." />
                     </div>
                 </div>
 
@@ -78,16 +78,15 @@
             </div>
         </form>
 
-     
         <div class="d-flex align-items-center justify-content-between mb-3">
             <h5 class="fw-bold mb-0">Elenco segnalazioni</h5>
 
+            <!-- CONTEGGIO TOTALE (INDIPENDENTE DAI FILTRI) -->
             <div id="newAlertsText" class="small fw-bold text-danger">
-                Nuove da controllare: <span id="newCount">0</span>
+                Nuove da controllare: <span id="newCount">@Model.TotalNewReports</span>
             </div>
         </div>
 
-       
         <div class="form-check form-switch mb-3">
             <input class="form-check-input" type="checkbox" id="toggleClosed">
             <label class="form-check-label small fw-bold text-muted" for="toggleClosed">
@@ -225,38 +224,20 @@
             const stato = row.querySelector("td:nth-child(3)").innerText.trim();
             row.style.display = (hideClosed && stato === "Chiusa") ? "none" : "";
         });
-
-        updateNewCount();
     }
-
-    function updateNewCount() {
-        const rows = document.querySelectorAll("tbody tr");
-        let count = 0;
-
-        rows.forEach(row => {
-            const stato = row.querySelector("td:nth-child(3)").innerText.trim();
-            if (stato === "Nuova - In attesa di verifica" && row.style.display !== "none") {
-                count++;
-            }
-        });
-
-        document.getElementById("newCount").innerText = count;
-    }
-
 
     toggleClosed.addEventListener("change", () => {
         localStorage.setItem("hideClosedReports", toggleClosed.checked ? "true" : "false");
         applyHideClosed();
     });
 
-
-       window.addEventListener("DOMContentLoaded", () => {
+    window.addEventListener("DOMContentLoaded", () => {
         const hasAdvancedFilters = @Json.Serialize(
-                        !string.IsNullOrEmpty(Model.FStato) ||
-                        !string.IsNullOrEmpty(Model.FPriorità) ||
-                        !string.IsNullOrEmpty(Model.Fcategoria) ||
-                        !string.IsNullOrEmpty(Model.Fluogo)
-                );
+                                                !string.IsNullOrEmpty(Model.FStato) ||
+                                                !string.IsNullOrEmpty(Model.FPriorità) ||
+                                                !string.IsNullOrEmpty(Model.Fcategoria) ||
+                                                !string.IsNullOrEmpty(Model.Fluogo)
+                                );
 
         if (hasAdvancedFilters) {
             document.getElementById("btnToggleFilters").click();
