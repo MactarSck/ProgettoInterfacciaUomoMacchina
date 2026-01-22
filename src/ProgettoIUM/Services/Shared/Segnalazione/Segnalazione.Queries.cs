@@ -136,8 +136,7 @@ namespace ProgettoIUM.Services.Shared
                     x.Luogo.Contains(filter, StringComparison.OrdinalIgnoreCase) ||
                     x.StatoAttuale.Contains(filter, StringComparison.OrdinalIgnoreCase) ||
                     x.Priorità.Contains(filter, StringComparison.OrdinalIgnoreCase) ||
-                    x.Esito.Contains(filter, StringComparison.OrdinalIgnoreCase) ||
-                    x.Id.Contains(filter, StringComparison.OrdinalIgnoreCase)
+                    x.Esito.Contains(filter, StringComparison.OrdinalIgnoreCase)
                 );
             }
 
