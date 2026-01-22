@@ -120,8 +120,8 @@ namespace ProgettoIUM.Web.Features.Segnalazioni
                         await _dbContext.SaveChangesAsync();
                     }
                 }
-
-                Alerts.AddSuccess(this, "Informazioni aggiornate correttamente");
+           
+              
             }
             catch (Exception ex)
             {
@@ -129,6 +129,7 @@ namespace ProgettoIUM.Web.Features.Segnalazioni
                 Alerts.AddError(this, "Errore durante il salvataggio");
                 return View(model);
             }
+            TempData["SuccessMessage"] = "Informazioni aggiornate correttamente";
 
             return RedirectToAction(nameof(Edit), new { id = model.Id });
         }

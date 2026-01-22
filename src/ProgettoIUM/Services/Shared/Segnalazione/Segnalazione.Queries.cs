@@ -119,11 +119,20 @@ namespace ProgettoIUM.Services.Shared
         /// <returns></returns>
         public async Task<SegnalazioniIndexDTO> Query(SegnalazioneIndexQuery qry)
         {
-            var queryable = _dbContext.Segnalazioni.Where(x => x.Id != qry.IdCurrentSegnalazione);
+            var queryable = _dbContext.Segnalazioni
+                .Where(x => x.Id != qry.IdCurrentSegnalazione);
 
-            if (string.IsNullOrWhiteSpace(qry.Filter) == false)
+            if (!string.IsNullOrWhiteSpace(qry.Filter))
             {
-                queryable = queryable.Where(x => x.Categoria.Contains(qry.Filter, StringComparison.OrdinalIgnoreCase));
+                var filter = qry.Filter.Trim();
+
+                queryable = queryable.Where(x =>
+                    x.Categoria.Contains(filter, StringComparison.OrdinalIgnoreCase) ||
+                    x.Luogo.Contains(filter, StringComparison.OrdinalIgnoreCase) ||
+                    x.StatoAttuale.Contains(filter, StringComparison.OrdinalIgnoreCase) ||
+                    x.Priorità.ToString().Contains(filter, StringComparison.OrdinalIgnoreCase) ||
+                    x.Esito.Contains(filter, StringComparison.OrdinalIgnoreCase)
+                );
             }
 
             return new SegnalazioniIndexDTO
@@ -139,12 +148,13 @@ namespace ProgettoIUM.Services.Shared
                         Categoria = x.Categoria,
                         DataInvio = x.DataInvio,
                         Esito = x.Esito
-
                     })
                     .ToArrayAsync(),
+
                 Count = await queryable.CountAsync()
             };
         }
+
 
         /// <summary>
         /// Returns the detail of the user who matches the Id passed in the qry parameter

@@ -39,6 +39,15 @@
 
 <div id="vue-app">
     <div class="container-lg py-4">
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success alert-dismissible fade show shadow-sm rounded-4 mb-4" role="alert">
+                <i class="fa-solid fa-circle-check me-2"></i>
+                @TempData["SuccessMessage"]
+
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
         <div class="row">
             <div class="col-12">
                 @* SEZIONE AMMINISTRAZIONE  *@
@@ -341,4 +350,14 @@
         aggiornaEsito();
         statoSelect.addEventListener("change", aggiornaEsito);
     });
+</script>
+<script>
+    setTimeout(() => {
+        const alert = document.querySelector('.alert');
+        if (alert) {
+            alert.classList.remove('show');
+            alert.classList.add('fade');
+            setTimeout(() => alert.remove(), 500);
+        }
+    }, 4000);
 </script>

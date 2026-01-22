@@ -31,7 +31,7 @@
 
                     <!-- Logo al centro (sempre) -->
                     <div class="col-6 col-lg-4 text-center">
-                        <a class="navbar-brand m-0" href="/">
+                        <a class="navbar-brand m-0" href="/" id="logo">
                             <img src="~/images/app-logo.png"
                                  style="height:50px"
                                  alt="SEC-K-URE Systems" />
@@ -129,6 +129,7 @@
     }
 </style>
 
+
 @section googlehead {
     @*<script async src="https://www.googletagmanager.com/gtag/js?id=UA-"></script>
     <script>
@@ -140,8 +141,11 @@
 }
 @section scripts {
     <script type="text/javascript">
+
+
         @this.RenderAlertsWithToastify()
     </script>
 
     @RenderSection("scripts", false)
 }
+

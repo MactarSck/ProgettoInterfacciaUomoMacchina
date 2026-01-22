@@ -9,17 +9,38 @@
     <h2 class="fw-bold pb-0 mb-2">DASHBOARD</h2>
 
     <hr class="mt-0" style="height: 3px; opacity: 1;">
+
     <div class="mb-5">
         <h5 class="fw-bold mb-3">Elenco segnalazioni</h5>
 
-        <form asp-action="Index" method="get" class="d-flex align-items-center gap-2 mb-4">
-            <div class="col-md-2">
+
+      
+        <form asp-action="Index" method="get" class="d-flex align-items-end gap-3 mb-4 flex-wrap">
+            <div class="form-group mb-0" style="min-width: 260px;">
                 <label asp-for="Filter" class="small fw-bold d-block mb-1">Cerca</label>
-                <input asp-for="Filter" class="form-control form-control-sm rounded-pill border shadow-sm" />
+
+                <div class="input-group input-group-sm shadow-sm">
+                    <span class="input-group-text bg-white border-end-0 rounded-start">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </span>
+
+                    <input asp-for="Filter" class="form-control form-control-sm border-start-0 rounded-end" placeholder="Inserisci parola chiave..." />
+                </div>
             </div>
-            <div class="mt-4">
-                <button type="submit" class="btn btn-primary btn-sm rounded-pill px-4 shadow-sm" style="background-color: #74a2ff; border: none;">Filtra</button>
-                <a asp-action="Index" class="btn btn-light btn-sm rounded-pill px-3 border shadow-sm text-muted">X Azzurra ricerca</a>
+
+            <div class="d-flex gap-2 align-items-center">
+                <button type="submit" class="btn btn-primary btn-sm rounded-pill px-4 shadow-sm">
+                    <i class="fa-solid fa-filter me-2"></i>Filtra
+                </button>
+
+                <a asp-action="Index" class="btn btn-outline-secondary btn-sm rounded-pill px-4 shadow-sm internal-link">
+                    <i class="fa-solid fa-eraser me-2"></i>Azzera
+                </a>
+
+                  <a id="refreshTable" class="fa-solid fa-refresh text-decoration-none"></a>
+
+
+            
             </div>
         </form>
 
@@ -53,7 +74,7 @@
                                 else if (s.Priorità == "Media")
                                 {
                                     <span class="badge bg-warning-subtle text-warning-emphasis px-3 py-2 rounded-pill">
-                                         Media
+                                        Media
                                     </span>
                                 }
                                 else if (s.Priorità == "Non Definita")
@@ -64,9 +85,9 @@
                                 }
                                 else
                                 {
-                                <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill">
-                                    Bassa
-                                </span>
+                                    <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill">
+                                        Bassa
+                                    </span>
                                 }
                             </td>
                             <td>
@@ -76,7 +97,7 @@
                                         @s.Stato
                                     </span>
                                 }
-                                else if(s.Stato == "Chiusa")
+                                else if (s.Stato == "Chiusa")
                                 {
                                     <span class="badge bg-success-subtle text-secondary px-3 py-2 rounded-pill border border-secondary-subtle">
                                         <i class="fa-solid fa-check me-1"></i>@s.Stato
@@ -84,19 +105,16 @@
                                 }
                                 else
                                 {
-                                    
                                     <span class="badge bg-secondary-subtle text-secondary px-3 py-2 rounded-pill border border-secondary-subtle">
                                         <i class="fa-solid fa-clock me-1"></i> @s.Stato
                                     </span>
-                                    
                                 }
-                              
                             </td>
                             <td class="text-muted">@s.Luogo</td>
                             <td class="text-muted">@s.Categoria</td>
                             <td class="text-muted small">@s.DataInvio.ToString("MMM dd, HH:mm")</td>
                             <td class="text-end px-4">
-                                <a asp-action="Edit" asp-route-id="@s.Id" class="btn btn-outline-primary btn-sm rounded-circle border-0">
+                                <a asp-action="Edit" asp-route-id="@s.Id" class="btn btn-outline-primary btn-sm rounded-circle border-0 internal-link">
                                     <i class="fa-solid fa-arrow-right"></i>
                                 </a>
                             </td>
@@ -109,20 +127,79 @@
 </div>
 
 <style>
-
     html, body {
         margin: 0;
         padding: 0;
-      
         min-height: 100vh;
     }
 
     body {
-      
         background: linear-gradient(180deg, #FFFFFF 0%, #ECECEC 91%);
-      
         background-attachment: fixed;
         background-repeat: no-repeat;
     }
 
+    .input-group-text {
+        border: 1px solid #e3e3e3;
+    }
+
+    .form-control:focus {
+        box-shadow: none;
+        border-color: #74a2ff;
+    }
+
+    .btn-primary {
+        background-color: #74a2ff;
+        border-color: #74a2ff;
+    }
+
+    #refreshTable {
+        float: right; 
+        font-size: 1.1rem; 
+        cursor: pointer; 
+        color: #0d6efd; 
+        padding: 8px 10px;
+    }
+
+        #refreshTable:hover {
+            color: #0746c8;
+        }
+
 </style>
+
+<script>
+    const logoutUrl = '@Url.Action("Logout", "Login")';
+    let internalNavigation = false;
+
+   
+    let isReload = false;
+
+    document.addEventListener("click", function (e) {
+        const link = e.target.closest("a.internal-link");
+        if (link) {
+            internalNavigation = true;
+        }
+    });
+
+
+    document.getElementById("refreshTable").addEventListener("click", function () {
+        isReload = true;
+        location.reload();
+    });
+
+     window.addEventListener("beforeunload", function (e) {
+   
+        if (isReload || internalNavigation) {
+            return;
+        }
+
+        navigator.sendBeacon(logoutUrl);
+    window.addEventListener("pagehide", function () {
+        
+        if (isReload) return;
+
+        if (!internalNavigation) {
+            navigator.sendBeacon(logoutUrl);
+        }
+    });
+</script>
