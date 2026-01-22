@@ -96,6 +96,8 @@ namespace ProgettoIUM.Web
                 app.UseHttpsRedirection();
             }
 
+            app.UseStatusCodePagesWithReExecute("/Error/{0}");
+
             app.Use(async (context, next) =>
             {
                 context.Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
@@ -128,6 +130,7 @@ namespace ProgettoIUM.Web
 
                 endpoints.MapAreaControllerRoute("Example", "Example", "Example/{controller=Users}/{action=Index}/{id?}");
                 endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}");
+                endpoints.MapControllers();
             });
         }
     }

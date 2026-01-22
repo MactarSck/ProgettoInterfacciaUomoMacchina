@@ -83,11 +83,12 @@
         <div class="d-flex flex-column align-items-center gap-3">
             <a asp-controller="Home"
                asp-action="DettaglioUtente"
-               asp-route-codiceUnivoco="@ViewBag.CodiceProtetto"
-               class="btn btn-primary btn-lg  px-5 shadow btn-modern"
+               asp-route-token="@ViewBag.CodiceProtetto"
+               class="btn btn-primary btn-lg px-5 shadow btn-modern"
                style="background-color: #4dabf7; border: none; min-width: 320px; font-weight: bold; color: white;">
                 VERIFICA STATO
             </a>
+
 
             <a asp-controller="Home" asp-action="Index"
                class="btn btn-link text-decoration-none text-secondary fw-medium px-5">

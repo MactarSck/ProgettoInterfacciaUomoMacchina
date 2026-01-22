@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.DataProtection; 
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
@@ -19,7 +19,6 @@ namespace ProgettoIUM.Web.Features.Home
         private readonly ProgettoIUMDbContext _dbContext;
         private readonly IDataProtector _protector;
 
-        
         public HomeController(ProgettoIUMDbContext context, IDataProtectionProvider provider)
         {
             _dbContext = context;
@@ -34,27 +33,29 @@ namespace ProgettoIUM.Web.Features.Home
         }
 
         [HttpGet]
-        public virtual IActionResult DettaglioUtente(string codiceUnivoco)
+        public virtual IActionResult DettaglioUtente(string token)
         {
             Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
             Response.Headers["Pragma"] = "no-cache";
             Response.Headers["Expires"] = "0";
 
-            if (string.IsNullOrWhiteSpace(codiceUnivoco))
+            if (string.IsNullOrWhiteSpace(token))
             {
+                TempData["Error"] = "Link non valido.";
                 return RedirectToAction("Index");
             }
 
-            string codiceReale = codiceUnivoco;
+            string codiceReale;
 
-            // Tentativo di decriptazione
+
             try
             {
-                codiceReale = _protector.Unprotect(codiceUnivoco);
+                codiceReale = _protector.Unprotect(token);
             }
             catch
             {
-                // se non è criptato, va bene così
+                TempData["Error"] = "Link non valido o scaduto.";
+                return RedirectToAction("Index");
             }
 
             var segnalazione = _dbContext.Segnalazioni
@@ -63,16 +64,14 @@ namespace ProgettoIUM.Web.Features.Home
 
             if (segnalazione == null)
             {
-                TempData["Error"] = "Codice univoco errato.";
+                TempData["Error"] = "Segnalazione non trovata.";
                 return RedirectToAction("Index");
             }
 
-   
             var storico = segnalazione.StoricoStati?
                 .OrderByDescending(s => s.DataCambio)
                 .ToList() ?? new List<StoricoStato>();
 
-        
             if (!storico.Any(s => s.StatoNuovo == "Segnalazione creata"))
             {
                 storico.Add(new StoricoStato
@@ -86,11 +85,10 @@ namespace ProgettoIUM.Web.Features.Home
                 .OrderByDescending(s => s.DataCambio)
                 .ToList();
 
-            // ---- VIEWMODEL ----
             var viewModel = new EditViewModel
             {
                 Id = segnalazione.Id,
-                CodiceUnivoco = segnalazione.CodiceUnivoco,
+                CodiceUnivoco = codiceReale,
                 StatoAttuale = segnalazione.StatoAttuale,
                 DataRisoluzionePrevista = segnalazione.DataRisoluzionePrevista,
                 Categoria = segnalazione.Categoria,
@@ -105,6 +103,31 @@ namespace ProgettoIUM.Web.Features.Home
             };
 
             return View("~/Features/Segnalazioni/DettaglioUtente.cshtml", viewModel);
+        }
+
+        [HttpPost]
+        public virtual IActionResult DettaglioUtentePost(string codiceUnivoco)
+        {
+            if (string.IsNullOrWhiteSpace(codiceUnivoco))
+            {
+                TempData["Error"] = "Inserisci un codice valido.";
+                return RedirectToAction("Index");
+            }
+
+            
+            bool esiste = _dbContext.Segnalazioni.Any(s => s.CodiceUnivoco == codiceUnivoco);
+
+            if (!esiste)
+            {
+                TempData["Error"] = "Codice non valido.";
+                return RedirectToAction("Index");
+            }
+
+            
+            string token = _protector.Protect(codiceUnivoco);
+
+
+            return RedirectToAction("DettaglioUtente", new { token });
         }
 
         [HttpPost]

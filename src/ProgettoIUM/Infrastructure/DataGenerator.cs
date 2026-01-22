@@ -82,7 +82,7 @@ namespace ProgettoIUM.Infrastructure
                     CodiceUnivoco = "MQ-3242-R3",
                     DataInvio = DateTime.Now.AddDays(-3),
                     Categoria = "Altro",
-                    Luogo = "VEM forli",
+                    Luogo = "Sicap forli",
                     Reparto = "HR",
                     Descrizione = "Rilevato guasto meccanico alla linea 3.",
                     StatoAttuale = "Aperta",

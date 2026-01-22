@@ -1,30 +1,26 @@
-﻿
-@inject IHtmlLocalizer<ProgettoIUM.Web.SharedResource> SharedLocalizer
+﻿@inject IHtmlLocalizer<ProgettoIUM.Web.SharedResource> SharedLocalizer
 @inject Microsoft.Extensions.Options.IOptions<AppSettings> appSettings
 @{
     Layout = "_LayoutHtml";
     var version = System.Reflection.Assembly.GetAssembly(typeof(Startup)).GetName().Version;
     var identity = Context.User.Identity;
 
-
     var identitaCorrente = (ProgettoIUM.Web.Areas.IdentitaViewModel)ViewData[ProgettoIUM.Web.Areas.IdentitaViewModel.VIEWDATA_IDENTITACORRENTE_KEY];
 }
-@section metas{
+@section metas {
     @RenderSection("metas", false)
 }
-@section styles{
-
+@section styles {
     @RenderSection("styles", false)
-
 }
 <div id="pageId" class="onit-page">
     <div class="onit-page-sticky-top" id="onit-page-sticky-top">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-white   py-2">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-white py-2">
             <div class="container-fluid">
 
                 <div class="row w-100 align-items-center">
 
-                
+                    <!-- About e Privacy solo desktop -->
                     <div class="col-4 d-none d-lg-flex align-items-center gap-5">
                         <a class="nav-link p-0 fw-medium small text-black"
                            asp-controller="Home" asp-action="Index">About</a>
@@ -33,8 +29,8 @@
                            asp-controller="Home" asp-action="Privacy">Privacy</a>
                     </div>
 
-                 
-                    <div class="col-4 text-center">
+                    <!-- Logo al centro (sempre) -->
+                    <div class="col-6 col-lg-4 text-center">
                         <a class="navbar-brand m-0" href="/">
                             <img src="~/images/app-logo.png"
                                  style="height:50px"
@@ -42,8 +38,8 @@
                         </a>
                     </div>
 
-                
-                    <div class="col-4 d-flex justify-content-end align-items-center gap-3">
+                    <!-- Icone a destra -->
+                    <div class="col-6 col-lg-4 d-flex justify-content-end align-items-center gap-3">
 
                         <div class="dropdown">
                             <button class="btn btn-link text-dark p-0"
@@ -83,14 +79,26 @@
                     </div>
 
                 </div>
+
+                <!-- MENU HAMBURGER -->
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <!-- About e Privacy anche nel menu hamburger -->
+                        <li class="nav-item d-lg-none">
+                            <a class="nav-link text-black" asp-controller="Home" asp-action="Index">About</a>
+                        </li>
+                        <li class="nav-item d-lg-none">
+                            <a class="nav-link text-black" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>
+                    </ul>
+                </div>
+
             </div>
         </nav>
 
-
-
-        
         @RenderSection("pageTitle", false)
     </div>
+
     @RenderSection("pageSubtitle", false)
     @RenderBody()
 </div>
@@ -114,8 +122,14 @@
         background: #DEE2E6;
         border-top: 1px solid #DEE2E6;
     }
+
+    /* Assicurati che la navbar occupi 100% su mobile */
+    .navbar {
+        width: 100%;
+    }
 </style>
-@section googlehead{
+
+@section googlehead {
     @*<script async src="https://www.googletagmanager.com/gtag/js?id=UA-"></script>
     <script>
     window.dataLayer = window.dataLayer || [];
@@ -123,8 +137,8 @@
     gtag('js', new Date());
     gtag('config', 'UA-', { 'anonymize_ip': true });    // Ricordarsi di anonimizzare per fare ricadere il cookie tra quelli tecnici ed evitare l'obbligo del banner
     </script>*@
-    }
-@section scripts{
+}
+@section scripts {
     <script type="text/javascript">
         @this.RenderAlertsWithToastify()
     </script>
