@@ -25,6 +25,29 @@
             background-attachment: fixed;
             background-repeat: no-repeat;
         }
+       
+        .codice-card {
+            max-width: 500px;
+            border-radius: 20px;
+            background-color: #f8f9fa;
+        }
+
+        .codice-text {
+            font-size: 2.5rem; 
+            letter-spacing: 1px;
+        }
+
+      
+        .alert-custom {
+            max-width: 750px;
+            background-color: #e6fcf9;
+            color: #087f5b;
+        }
+
+        .msg-success {
+            font-weight: 600;
+            color: #0b6b4f; 
+        }
 
     </style>
 
@@ -35,10 +58,11 @@
         <h1 class="fw-bold mt-3">Segnalazione Inviata!</h1>
     </div>
 
-    <div class="alert alert-success mx-auto rounded-4 p-4 mb-5 border-0 shadow-sm" style="max-width: 750px; background-color: #e6fcf9; color: #087f5b;">
-        <p class="mb-1" style="font-weight: 500;">Grazie per aver agito con responsabilità.</p>
-        <p class="small opacity-75 mb-0">La tua segnalazione è stata registrata e sarà gestita con la massima riservatezza in conformità alle norme interne.</p>
+    <div class="alert alert-success mx-auto rounded-4 p-4 mb-5 border-0 shadow-sm alert-custom">
+        <p class="mb-1 msg-success">Grazie per aver agito con responsabilità.</p>
+        <p class="small  mb-0">La tua segnalazione è stata registrata e sarà gestita con la massima riservatezza in conformità alle norme interne.</p>
     </div>
+
 
   
 
@@ -46,11 +70,12 @@
     <div class="container text-center mt-5">
  
 
-        <div class="card shadow-sm border-0 p-4 mb-5 mx-auto" style="max-width: 500px; border-radius: 20px; background-color: #f8f9fa;">
+        <div class="card shadow-sm border-0 p-4 mb-5 mx-auto codice-card">
             <p class="text-muted mb-1">Prendi nota del tuo codice univoco:</p>
-            <h2 class="fw-bold text-primary mb-3">@ViewBag.CodiceInChiaro</h2>
+            <h2 class="fw-bold text-primary mb-3 codice-text">@ViewBag.CodiceInChiaro</h2>
             <p class="small text-muted">Usa questo codice per controllare lo stato della segnalazione in futuro. <strong>Non perderlo!</strong></p>
         </div>
+
 
       
 
@@ -59,7 +84,7 @@
             <a asp-controller="Home"
                asp-action="DettaglioUtente"
                asp-route-codiceUnivoco="@ViewBag.CodiceProtetto"
-               class="btn btn-primary btn-lg rounded-pill px-5 shadow btn-modern"
+               class="btn btn-primary btn-lg  px-5 shadow btn-modern"
                style="background-color: #4dabf7; border: none; min-width: 320px; font-weight: bold; color: white;">
                 VERIFICA STATO
             </a>

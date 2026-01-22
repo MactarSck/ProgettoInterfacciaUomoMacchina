@@ -23,11 +23,29 @@ namespace ProgettoIUM.Web.Features.Compilazione
         }
 
         [HttpGet]
-        public virtual IActionResult NuovaSegnalazione()
-        {
-            var model = new CompilazioneViewModel();
+        public virtual IActionResult NuovaSegnalazione(
+          string Categoria,
+          string Luogo,
+          string Reparto,
+          string Descrizione,
+          DateTime DataInvio,
+          string NomeFileGiaCaricato,
+          string PathFileGiaCaricato)
+            {
+                var model = new CompilazioneViewModel
+                {
+                    Categoria = Categoria,
+                    Luogo = Luogo,
+                    Reparto = Reparto,
+                    Descrizione = Descrizione,
+                    DataInvio = DataInvio,
+                    NomeFileGiaCaricato = NomeFileGiaCaricato,
+                    PathFileGiaCaricato = PathFileGiaCaricato
+                };
+
             return View("~/Features/Compilazione/Index.cshtml", model);
         }
+
 
         [HttpPost("Conferma")]
         public virtual async Task<IActionResult> Conferma(CompilazioneViewModel model)
