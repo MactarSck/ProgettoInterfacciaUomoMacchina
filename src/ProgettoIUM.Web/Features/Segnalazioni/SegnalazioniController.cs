@@ -92,6 +92,7 @@ namespace ProgettoIUM.Web.Features.Segnalazioni
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+       
         public virtual async Task<IActionResult> Edit(EditViewModel model)
         {
             if (!ModelState.IsValid)
@@ -100,19 +101,28 @@ namespace ProgettoIUM.Web.Features.Segnalazioni
                 return View(model);
             }
 
+            if (model.DataRisoluzionePrevista.HasValue && model.DataRisoluzionePrevista.Value.Date < DateTime.Today)
+            {
+                TempData["ErrorMessage"] = "Inserire una data di risoluzione valida";
+                return RedirectToAction(nameof(Edit), new { id = model.Id });
+            }
+
+            if (!string.IsNullOrWhiteSpace(model.Esito) && model.StatoAttuale != "Chiusa")
+            {
+                TempData["ErrorMessage"] = "Per inserire un esito lo stato della segnalazione deve essere chiusa";
+                return RedirectToAction(nameof(Edit), new { id = model.Id });
+            }
+
             try
             {
-           
                 await _sharedService.Handle(model.ToAddOrUpdateSegnalazioneCommand());
 
-              
                 var segnalazione = await _dbContext.Segnalazioni
                     .Include(s => s.StoricoStati)
                     .FirstOrDefaultAsync(s => s.Id == model.Id);
 
                 if (segnalazione != null)
                 {
-                   
                     var ultimoStato = segnalazione.StoricoStati
                         .OrderByDescending(s => s.DataCambio)
                         .FirstOrDefault()?.StatoNuovo;
@@ -123,16 +133,11 @@ namespace ProgettoIUM.Web.Features.Segnalazioni
                         {
                             StatoNuovo = model.StatoAttuale,
                             DataCambio = DateTimeOffset.Now
-
-
-
                         });
 
                         await _dbContext.SaveChangesAsync();
                     }
                 }
-           
-              
             }
             catch (Exception ex)
             {
@@ -140,10 +145,12 @@ namespace ProgettoIUM.Web.Features.Segnalazioni
                 Alerts.AddError(this, "Errore durante il salvataggio");
                 return View(model);
             }
-            TempData["SuccessMessage"] = "Informazioni aggiornate correttamente";
 
+            TempData["SuccessMessage"] = "Informazioni aggiornate correttamente";
             return RedirectToAction(nameof(Edit), new { id = model.Id });
         }
+
+
 
 
     }

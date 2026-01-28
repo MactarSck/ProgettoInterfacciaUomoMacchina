@@ -32,12 +32,14 @@
                     <button type="submit" class="btn btn-primary btn-sm rounded-pill px-4 shadow-sm internal-link">
                         <i class="fa-solid fa-filter me-2"></i>Filtra
                     </button>
+                  
                     <a href="javascript:void(0)" id="btnToggleFilters" class="small text-decoration-none fw-bold">
                         Filtri avanzati <i class="fa-solid fa-chevron-down ms-1"></i>
                     </a>
                     <a asp-action="Index" class="small text-danger text-decoration-none border-start ps-3 internal-link">
                         Azzera filtri
                     </a>
+                   
                 </div>
             </div>
 
@@ -82,9 +84,11 @@
         <div class="d-flex align-items-center justify-content-between mb-3">
             <h5 class="fw-bold mb-0">Elenco segnalazioni</h5>
 
-            <div id="newAlertsText" class="small fw-bold text-danger">
-                Nuove da controllare: <span id="newCount">0</span>
-            </div>
+            <button type="button" onclick="refreshPage(this)" class="btn btn-outline-secondary btn-sm rounded-circle shadow-sm" title="Aggiorna elenco">
+                <i class="fa-solid fa-arrows-rotate" id="refreshIcon"></i>
+            </button>
+
+           
         </div>
 
        
@@ -93,6 +97,7 @@
             <label class="form-check-label small fw-bold text-muted" for="toggleClosed">
                 Nascondi segnalazioni chiuse
             </label>
+
         </div>
 
         <div class="table-responsive border-0 shadow-sm rounded-4 bg-white">
@@ -220,27 +225,21 @@
     function applyHideClosed() {
         const hideClosed = toggleClosed.checked;
         const rows = document.querySelectorAll("tbody tr");
-
-        rows.forEach(row => {
-            const stato = row.querySelector("td:nth-child(3)").innerText.trim();
-            row.style.display = (hideClosed && stato === "Chiusa") ? "none" : "";
-        });
-
-        updateNewCount();
     }
+        function refreshPage(btn) {
+      
+        const icon = btn.querySelector('i');
 
-    function updateNewCount() {
-        const rows = document.querySelectorAll("tbody tr");
-        let count = 0;
+    
+        icon.classList.add('fa-spin-custom');
 
-        rows.forEach(row => {
-            const stato = row.querySelector("td:nth-child(3)").innerText.trim();
-            if (stato === "Nuova - In attesa di verifica" && row.style.display !== "none") {
-                count++;
-            }
-        });
+    
+        btn.disabled = true;
 
-        document.getElementById("newCount").innerText = count;
+
+        setTimeout(() => {
+            window.location.reload();
+        }, 500);
     }
 
 

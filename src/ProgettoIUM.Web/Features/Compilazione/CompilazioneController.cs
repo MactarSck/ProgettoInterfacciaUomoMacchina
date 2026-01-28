@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.DataProtection; // Necessario per la crittografia
+using Microsoft.AspNetCore.DataProtection;
 using ProgettoIUM.Services;
 using ProgettoIUM.Services.Shared.Segnalazione;
 using System;

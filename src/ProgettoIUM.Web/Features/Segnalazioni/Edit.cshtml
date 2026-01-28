@@ -8,16 +8,11 @@
 }
 
 @section pageTitle {
-    <nav class="navbar navbar-expand navbar-light px-5 py-4 border-bottom">
+    <nav class="navbar navbar-expand navbar-light px-4 border-bottom">
+        <div class="navbar-brand fw-bold text-uppercase" style="letter-spacing: 1px;">
+            @ViewData["Title"]
+        </div>
         <div class="d-flex align-items-center w-100">
-
-            
-            <div class="fw-bold text-uppercase text-truncate"
-                 style="letter-spacing: 1.2px; font-size: 1.05rem;">
-                @ViewData["Title"]
-            </div>
-
-            
             <div class="ms-auto d-flex align-items-center gap-3">
                 <button type="button"
                         class="btn btn-primary px-5 rounded-pill shadow-sm"
@@ -35,10 +30,21 @@
         </div>
     </nav>
 }
+<hr class="mt-0" style="height: 3px; opacity: 1;">
 
 
 <div id="vue-app">
     <div class="container-lg py-4">
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade show shadow-sm rounded-4 mb-4" role="alert">
+                <i class="fa-solid fa-triangle-exclamation me-2"></i>
+                @TempData["ErrorMessage"]
+
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+
         @if (TempData["SuccessMessage"] != null)
         {
             <div class="alert alert-success alert-dismissible fade show shadow-sm rounded-4 mb-4" role="alert">
@@ -57,9 +63,11 @@
                     <input type="hidden" asp-for="Id" />
 
                     <div class="custom-gray-card mb-5">
-                        <h5 class="text-center fw-bold text-uppercase " style="letter-spacing: 2px;">Amministrazione</h5>
+                        <h5 class="text-center fw-bold text-uppercase" style="letter-spacing: 2px;">Amministrazione</h5>
+
+                        <!-- Riga con Stato, Priorità e Data -->
                         <div class="row g-4 px-3 pb-2">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <label class="small fw-bold mb-2 d-block text-dark">Stato Segnalazione</label>
                                 <select asp-for="StatoAttuale" class="form-select modern-input" id="stato-select">
                                     <option value="Nuova - In attesa di verifica">Nuova - In attesa di verifica</option>
@@ -67,7 +75,7 @@
                                     <option value="Chiusa">Chiusa</option>
                                 </select>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <label class="small fw-bold mb-2 d-block text-dark">Priorità</label>
                                 <select asp-for="Priorità" class="form-select modern-input">
                                     <option value="Alta">Alta</option>
@@ -75,23 +83,28 @@
                                     <option value="Bassa">Bassa</option>
                                 </select>
                             </div>
-                        </div>
-                        <div class="row g-4 px-3 pb-2">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <label class="small fw-bold mb-2 d-block text-dark">Data risoluzione prevista</label>
                                 <input asp-for="DataRisoluzionePrevista" type="date" class="form-control border-0 shadow-sm py-2" />
                             </div>
-                            <div class="col-md-6">
+                        </div>
+
+                        <!-- Riga con campo Esito grande -->
+                        <div class="row g-4 px-3 pb-2">
+                            <div class="col-12">
                                 <label class="small fw-bold mb-2 d-block text-dark">Esito</label>
-                                <input asp-for="Esito" class="form-control modern-input"  id="esito-input" />
+                                <textarea asp-for="Esito" class="form-control modern-input" id="esito-input" rows="6"></textarea>
                             </div>
                         </div>
                     </div>
                 </form>
+
                 <hr>
 
                 @* --- SEZIONE STORICO STATI --- *@
-
+                <h5 class="text-center fw-bold text-uppercase mb-4 pt-2" style="letter-spacing: 2px;">
+                    Storico Stati
+                </h5>
                 <div class="timeline-card p-4">
 
                     <div class="d-flex justify-content-between align-items-center mb-3">
