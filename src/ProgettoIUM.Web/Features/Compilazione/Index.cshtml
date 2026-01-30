@@ -124,10 +124,10 @@
             var fileName = this.files[0] ? this.files[0].name : "";
 
             if (fileName) {
-                // Nuovo file selezionato
+          
                 fileDiv.innerHTML = "<i class='fa-solid fa-file-clip me-2'></i> Nuovo file: " + fileName;
             } else {
-                // Nessun file selezionato: mostra eventualmente il file già caricato
+            
                 fileDiv.innerHTML = '@Html.Raw(!string.IsNullOrEmpty(Model.NomeFileGiaCaricato)
                                                                                     ? "<i class=\\'fa-solid fa-file me-2\\'></i> File caricato: " + Model.NomeFileGiaCaricato
                                                                                     : "")';

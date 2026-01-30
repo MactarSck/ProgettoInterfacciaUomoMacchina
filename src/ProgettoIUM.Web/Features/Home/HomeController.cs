@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
@@ -11,6 +13,7 @@ using ProgettoIUM.Web.Features.Segnalazioni;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ProgettoIUM.Web.Features.Home
 {
@@ -26,8 +29,10 @@ namespace ProgettoIUM.Web.Features.Home
         }
 
         [OutputCache(NoStore = true, Duration = 0)]
-        public virtual IActionResult Index()
+        public virtual async Task<IActionResult> Index()
         {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            ViewData["ForceUnauthenticated"] = true;
             var model = new HomeViewModel();
             return View(model);
         }
@@ -129,6 +134,7 @@ namespace ProgettoIUM.Web.Features.Home
 
             return RedirectToAction("DettaglioUtente", new { token });
         }
+
 
         [HttpPost]
         public virtual IActionResult ChangeLanguageTo(string cultureName)
