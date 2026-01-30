@@ -14,11 +14,8 @@
         </div>
         <div class="d-flex align-items-center w-100">
             <div class="ms-auto d-flex align-items-center gap-3">
-                <button type="button"
-                        class="btn btn-primary px-5 rounded-pill shadow-sm"
-                        onclick="document.getElementById('edit-form-submitter').click()">
-                    <i class="fa-solid fa-floppy-disk me-2"></i> Salva
-                </button>
+              
+
 
                 <a asp-action="Index"
                    asp-controller="Segnalazioni"
@@ -62,11 +59,18 @@
                     <input id="edit-form-submitter" class="d-none" type="submit" />
                     <input type="hidden" asp-for="Id" />
 
-                    <div class="custom-gray-card mb-5">
+                    
+
+                    <h1></h1>
+
+                    <div class="custom-gray-card mb-5" style="max-width: 850px; margin: 0 auto; padding: 20px;">
+                        <div class="d-flex justify-content-end mt-3">
+                         
+                        </div>
+
                         <h5 class="text-center fw-bold text-uppercase" style="letter-spacing: 2px;">Amministrazione</h5>
 
-                        <!-- Riga con Stato, Priorità e Data -->
-                        <div class="row g-4 px-3 pb-2">
+                        <div class="row g-4 px-3 py-4 pb-2">
                             <div class="col-md-4">
                                 <label class="small fw-bold mb-2 d-block text-dark">Stato Segnalazione</label>
                                 <select asp-for="StatoAttuale" class="form-select modern-input" id="stato-select">
@@ -89,14 +93,24 @@
                             </div>
                         </div>
 
-                        <!-- Riga con campo Esito grande -->
-                        <div class="row g-4 px-3 pb-2">
+      
+                        <div class="row g-4 px-3 py-4 pb-2">
                             <div class="col-12">
                                 <label class="small fw-bold mb-2 d-block text-dark">Esito</label>
                                 <textarea asp-for="Esito" class="form-control modern-input" id="esito-input" rows="6"></textarea>
                             </div>
                         </div>
+
+                        <div class="d-flex justify-content-center mt-3">
+                            <button type="button"
+                                    class="d-flex align-items-center px-4 py-2"
+                                    style="background-color: #6BA1F4; color: white; border-radius: 6px; border: none;"
+                                    onclick="document.getElementById('edit-form-submitter').click()">
+                                <i class="fa-solid fa-floppy-disk me-2"></i> SALVA
+                            </button>
+                        </div>
                     </div>
+
                 </form>
 
                 <hr>
@@ -181,7 +195,7 @@
                     </div>
 
                     <div class="text-center pb-3">
-                        <label class="small fw-bold text-uppercase mb-2 d-block" style="letter-spacing: 1px;">Allegati</label>
+                        <label class="small fw-bold text-uppercase mb-2 d-block" style="letter-spacing: 1px;">Documentazione</label>
                         <div class="d-flex justify-content-center">
                             @if (!string.IsNullOrEmpty(Model.PathFile))
                             {

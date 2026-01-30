@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.DataProtection;
 using ProgettoIUM.Services;
 using ProgettoIUM.Services.Shared.Segnalazione;
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ProgettoIUM.Web.Features.Compilazione
@@ -54,10 +55,20 @@ namespace ProgettoIUM.Web.Features.Compilazione
 
             if (model.Allegato != null)
             {
+                var allowed = new[] { ".pdf", ".jpg", ".jpeg", ".png" };
+                var ext = Path.GetExtension(model.Allegato.FileName).ToLower();
+
+                if (!allowed.Contains(ext))
+                {
+                    ModelState.AddModelError("Allegato", "Formato file non valido, Quelli consentiti sono  pdf , jpg , jpeg , png ");
+                    return View("~/Features/Compilazione/Index.cshtml", model);
+                }
+
+   
                 var uploadsPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
                 if (!Directory.Exists(uploadsPath)) Directory.CreateDirectory(uploadsPath);
 
-                var uniqueName = Guid.NewGuid().ToString() + Path.GetExtension(model.Allegato.FileName);
+                var uniqueName = Guid.NewGuid().ToString() + ext;
                 var filePath = Path.Combine(uploadsPath, uniqueName);
 
                 using (var stream = new FileStream(filePath, FileMode.Create))
@@ -65,9 +76,14 @@ namespace ProgettoIUM.Web.Features.Compilazione
                     await model.Allegato.CopyToAsync(stream);
                 }
 
-                model.NomeFileGiaCaricato = model.Allegato.FileName;
+                model.NomeFileGiaCaricato = Path.GetFileName(model.Allegato.FileName);
                 model.PathFileGiaCaricato = "/uploads/" + uniqueName;
             }
+            else
+            {
+       
+            }
+
 
             return View("~/Features/Compilazione/Riepilogo.cshtml", model);
         }
@@ -81,7 +97,7 @@ namespace ProgettoIUM.Web.Features.Compilazione
             {
                 Id = Guid.NewGuid(),
                 CodiceUnivoco = codiceOriginale,
-                DataInvio = DateTime.Now,
+                DataInvio = model.DataInvio,
                 Categoria = model.Categoria,
                 Luogo = model.Luogo,
                 Reparto = model.Reparto,

@@ -113,6 +113,12 @@ namespace ProgettoIUM.Web.Features.Segnalazioni
                 return RedirectToAction(nameof(Edit), new { id = model.Id });
             }
 
+            if (string.IsNullOrWhiteSpace(model.Esito) && model.StatoAttuale == "Chiusa")
+            {
+                TempData["ErrorMessage"] = "Inserire un esito prima di chiudere la segnalazione";
+                return RedirectToAction(nameof(Edit), new { id = model.Id });
+            }
+
             try
             {
                 await _sharedService.Handle(model.ToAddOrUpdateSegnalazioneCommand());
