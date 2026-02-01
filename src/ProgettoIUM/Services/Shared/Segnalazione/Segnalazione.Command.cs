@@ -25,6 +25,13 @@ namespace ProgettoIUM.Services.Shared
 
     }
 
+    public class AddComunicazioneCommand
+    {
+        public Guid SegnalazioneId { get; set; }
+        public string Testo { get; set; }
+        public bool IsOperatore { get; set; }
+    }
+
     public partial class SharedService
     {
         public async Task<Guid> Handle(AddOrUpdateSegnalazioneCommand cmd)
@@ -64,5 +71,22 @@ namespace ProgettoIUM.Services.Shared
 
             return s.Id;
         }
+
+        public async Task<Guid> Handle(AddComunicazioneCommand cmd)
+        {
+            var msg = new Comunicazione
+            {
+                SegnalazioneId = cmd.SegnalazioneId,
+                Testo = cmd.Testo,
+                IsOperatore = cmd.IsOperatore,
+                DataInvio = DateTime.UtcNow
+            };
+
+            _dbContext.Comunicazioni.Add(msg);
+            await _dbContext.SaveChangesAsync();
+
+            return msg.Id;
+        }
+
     }
 }

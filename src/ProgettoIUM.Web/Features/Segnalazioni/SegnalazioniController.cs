@@ -156,10 +156,45 @@ namespace ProgettoIUM.Web.Features.Segnalazioni
             return RedirectToAction(nameof(Edit), new { id = model.Id });
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public virtual async Task<IActionResult> AddMessage(Guid segnalazioneId, string testo)
+        {
+            if (string.IsNullOrWhiteSpace(testo))
+            {
+                TempData["ErrorMessage"] = "Il messaggio non può essere vuoto.";
+                return RedirectToAction("Edit", new { id = segnalazioneId });
+            }
+
+            try
+            {
+                await _sharedService.Handle(new AddComunicazioneCommand
+                {
+                    SegnalazioneId = segnalazioneId,
+                    Testo = testo,
+                    IsOperatore = true
+                });
+
+                TempData["SuccessMessage"] = "Messaggio inviato con successo!";
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Errore nell'invio del messaggio: " + ex.Message;
+            }
+
+            return RedirectToAction("Edit", new { id = segnalazioneId });
+        }
 
 
+     
 
     }
 
 
+
+
+
 }
+
+
+

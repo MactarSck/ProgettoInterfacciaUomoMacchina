@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProgettoIUM.Infrastructure;
+using ProgettoIUM.Services.Shared.Segnalazione;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -56,6 +57,7 @@ namespace ProgettoIUM.Services.Shared
         public string? Esito { get; set; }
         public DateTime? DataRisoluzionePrevista { get; set; }
         public List<StoricoStato> StoricoStati { get; set; }
+        public List <Comunicazione> ChatMessaggi { get; set; }
 
     }
 
@@ -171,7 +173,6 @@ namespace ProgettoIUM.Services.Shared
                 queryable = queryable.Where(x => x.Esito.Contains(qry.Fesito, StringComparison.OrdinalIgnoreCase));
             }
 
-            // 3. ESECUZIONE (Sempre fuori dagli IF)
             var count = await queryable.CountAsync();
 
             var items = await queryable
@@ -206,29 +207,34 @@ namespace ProgettoIUM.Services.Shared
         public async Task<SegnalazioneDetailDTO> Query(SegnalazioniDetailQuery qry)
         {
             return await _dbContext.Segnalazioni
-                .Where(x => x.Id == qry.Id)
-                .Select(x => new SegnalazioneDetailDTO
-                {
-                    Id = x.Id,
-                    DataInvio = x.DataInvio,
-                    Categoria = x.Categoria,
-                    Luogo = x.Luogo,
-                    Reparto = x.Reparto,
-                    Descrizione = x.Descrizione,
-                    StatoAttuale = x.StatoAttuale,
-                    Priorità = x.Priorità,
-                    NomeFile = x.NomeFile, 
-                    PathFile = x.PathFile,
-                    Esito = x.Esito,
-                    DataRisoluzionePrevista = x.DataRisoluzionePrevista,
-                    StoricoStati = x.StoricoStati
-                            .OrderByDescending(s => s.DataCambio)
-                            .ToList()
+                 .Include(x => x.StoricoStati)
+                 .Include(x => x.ChatMessaggi)
+                 .Where(x => x.Id == qry.Id)
+                 .Select(x => new SegnalazioneDetailDTO
+                 {
+                     Id = x.Id,
+                     DataInvio = x.DataInvio,
+                     Categoria = x.Categoria,
+                     Luogo = x.Luogo,
+                     Reparto = x.Reparto,
+                     Descrizione = x.Descrizione,
+                     StatoAttuale = x.StatoAttuale,
+                     Priorità = x.Priorità,
+                     NomeFile = x.NomeFile,
+                     PathFile = x.PathFile,
+                     Esito = x.Esito,
+                     DataRisoluzionePrevista = x.DataRisoluzionePrevista,
+                     StoricoStati = x.StoricoStati
+                         .OrderByDescending(s => s.DataCambio)
+                         .ToList(),
+                     ChatMessaggi = x.ChatMessaggi
+                         .OrderBy(s => s.DataInvio)
+                         .ToList()
+                 })
+                 .FirstOrDefaultAsync();
 
-                })
-                .FirstOrDefaultAsync();
         }
 
-        
+
     }
 }

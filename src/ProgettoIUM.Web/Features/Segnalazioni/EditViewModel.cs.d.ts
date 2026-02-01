@@ -1,4 +1,4 @@
-//#hash:pSxxRvc3Ihc=
+//#hash:flpN1QWs9sg=
 declare module Features.Segnalazioni.Server {
 	interface editViewModel {
 		id: any;
@@ -15,5 +15,6 @@ declare module Features.Segnalazioni.Server {
 		esito: string;
 		dataRisoluzionePrevista?: Date;
 		storicoStati: server.storicoStato[];
+		chatMessaggi: server.comunicazione[];
 	}
 }

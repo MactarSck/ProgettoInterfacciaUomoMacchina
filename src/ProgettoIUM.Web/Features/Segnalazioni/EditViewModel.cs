@@ -1,4 +1,5 @@
 ﻿using ProgettoIUM.Services.Shared;
+using ProgettoIUM.Services.Shared.Segnalazione;
 using ProgettoIUM.Web.Infrastructure;
 using System;
 using System.Collections.Generic;
@@ -40,6 +41,8 @@ namespace ProgettoIUM.Web.Features.Segnalazioni
 
         public List<StoricoStato> StoricoStati { get; set; }
 
+        public List<Comunicazione> ChatMessaggi {  get; set; }
+
 
 
         public string ToJson()
@@ -67,6 +70,18 @@ namespace ProgettoIUM.Web.Features.Segnalazioni
             StoricoStati = dto.StoricoStati?
                    .OrderByDescending(x => x.DataCambio)
                    .ToList() ?? new List<StoricoStato>();
+            ChatMessaggi = dto.ChatMessaggi?
+                   .OrderBy(x => x.DataInvio)
+                   .Select(c => new Comunicazione
+                   {
+                       Id = c.Id,
+                       SegnalazioneId = c.SegnalazioneId,
+                       Testo = c.Testo,
+                       IsOperatore = c.IsOperatore,
+                       DataInvio = c.DataInvio
+                   })
+                   .ToList() ?? new List<Comunicazione>();
+
         }
 
 
@@ -87,6 +102,17 @@ namespace ProgettoIUM.Web.Features.Segnalazioni
                 
             };
         }
+
+        public AddComunicazioneCommand ToAddComunicazioneCommand(string testo, bool isOperatore)
+        {
+            return new AddComunicazioneCommand
+            {
+                SegnalazioneId = Id,
+                Testo = testo,
+                IsOperatore = isOperatore
+            };
+        }
+
 
     }
 

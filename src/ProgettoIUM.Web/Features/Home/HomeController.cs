@@ -19,13 +19,15 @@ namespace ProgettoIUM.Web.Features.Home
 {
     public partial class HomeController : Controller
     {
+        private readonly SharedService _sharedService;
         private readonly ProgettoIUMDbContext _dbContext;
         private readonly IDataProtector _protector;
 
-        public HomeController(ProgettoIUMDbContext context, IDataProtectionProvider provider)
+        public HomeController(ProgettoIUMDbContext context, IDataProtectionProvider provider, SharedService sharedService)
         {
             _dbContext = context;
             _protector = provider.CreateProtector("Segnalazione.Codice.Sicurezza.v1");
+            _sharedService = sharedService;
         }
 
         [OutputCache(NoStore = true, Duration = 0)]
@@ -38,33 +40,47 @@ namespace ProgettoIUM.Web.Features.Home
         }
 
         [HttpGet]
-        public virtual IActionResult DettaglioUtente(string token)
+        [HttpGet]
+        public virtual IActionResult DettaglioUtente(string token, Guid? id)
         {
             Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
             Response.Headers["Pragma"] = "no-cache";
             Response.Headers["Expires"] = "0";
 
-            if (string.IsNullOrWhiteSpace(token))
+            string codiceReale = null;
+
+            if (!string.IsNullOrWhiteSpace(token))
+            {
+                try
+                {
+                    codiceReale = _protector.Unprotect(token);
+                }
+                catch
+                {
+                    TempData["Error"] = "Link non valido o scaduto.";
+                    return RedirectToAction("Index");
+                }
+            }
+            else if (id.HasValue)
+            {
+                var seg = _dbContext.Segnalazioni.FirstOrDefault(s => s.Id == id.Value);
+                if (seg == null)
+                {
+                    TempData["Error"] = "Segnalazione non trovata.";
+                    return RedirectToAction("Index");
+                }
+                codiceReale = seg.CodiceUnivoco;
+            }
+            else
             {
                 TempData["Error"] = "Link non valido.";
                 return RedirectToAction("Index");
             }
 
-            string codiceReale;
-
-
-            try
-            {
-                codiceReale = _protector.Unprotect(token);
-            }
-            catch
-            {
-                TempData["Error"] = "Link non valido o scaduto.";
-                return RedirectToAction("Index");
-            }
-
+            // Carico la segnalazione con storico stati e comunicazioni
             var segnalazione = _dbContext.Segnalazioni
                 .Include(s => s.StoricoStati)
+                .Include(s => s.ChatMessaggi) // <-- aggiunto per visualizzare i messaggi
                 .FirstOrDefault(s => s.CodiceUnivoco == codiceReale);
 
             if (segnalazione == null)
@@ -86,9 +102,7 @@ namespace ProgettoIUM.Web.Features.Home
                 });
             }
 
-            storico = storico
-                .OrderByDescending(s => s.DataCambio)
-                .ToList();
+            storico = storico.OrderByDescending(s => s.DataCambio).ToList();
 
             var viewModel = new EditViewModel
             {
@@ -104,11 +118,16 @@ namespace ProgettoIUM.Web.Features.Home
                 PathFile = segnalazione.PathFile,
                 NomeFile = segnalazione.NomeFile,
                 Esito = segnalazione.Esito,
-                StoricoStati = storico
+                StoricoStati = storico,
+                ChatMessaggi = segnalazione.ChatMessaggi
+                    .OrderBy(c => c.DataInvio)
+                    .ToList() 
             };
 
             return View("~/Features/Segnalazioni/DettaglioUtente.cshtml", viewModel);
         }
+
+
 
         [HttpPost]
         public virtual IActionResult DettaglioUtentePost(string codiceUnivoco)
@@ -135,6 +154,36 @@ namespace ProgettoIUM.Web.Features.Home
             return RedirectToAction("DettaglioUtente", new { token });
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public virtual async Task<IActionResult> AddMessageUtente(Guid segnalazioneId, string testo)
+        {
+            if (string.IsNullOrWhiteSpace(testo))
+            {
+                TempData["ErrorMessage"] = "Il messaggio non può essere vuoto.";
+                return RedirectToAction("DettaglioUtente", new { id = segnalazioneId });
+            }
+
+            try
+            {
+                await _sharedService.Handle(new AddComunicazioneCommand
+                {
+                    SegnalazioneId = segnalazioneId,
+                    Testo = testo,
+                    IsOperatore = false
+                });
+
+                TempData["SuccessMessage"] = "Messaggio inviato con successo!";
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Errore nell'invio del messaggio: " + ex.Message;
+            }
+
+            // Redirect alla stessa pagina usando ID invece del token
+            return RedirectToAction("DettaglioUtente", new { id = segnalazioneId });
+        }
+
 
         [HttpPost]
         public virtual IActionResult ChangeLanguageTo(string cultureName)
@@ -152,5 +201,7 @@ namespace ProgettoIUM.Web.Features.Home
         {
             return View();
         }
+
+
     }
 }

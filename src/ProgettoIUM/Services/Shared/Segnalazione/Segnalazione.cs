@@ -30,6 +30,9 @@ namespace ProgettoIUM.Services.Shared.Segnalazione
 
         public virtual ICollection<StoricoStato> StoricoStati { get; set; }
 
+        public ICollection<Comunicazione> ChatMessaggi { get; set; }
+
+       
 
 
 

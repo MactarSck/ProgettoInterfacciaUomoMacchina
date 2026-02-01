@@ -6,20 +6,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProgettoIUM.Services.Shared
+namespace ProgettoIUM.Services.Shared.Segnalazione
 {
     public class Comunicazione
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
-        public int SegnalazioneId { get; set; }
-        public string testo { get; set; } 
+        public Guid SegnalazioneId { get; set; }
+        [ForeignKey(nameof(SegnalazioneId))]
+        public Segnalazione Segnalazione { get; set; }
+        public string Testo { get; set; } 
         public DateTime DataInvio { get; set; }
-
-        public string Mittente { get; set; }
         
-        public bool isOperatore { get; set; }
+        public bool IsOperatore { get; set; }
 
     }
 }
