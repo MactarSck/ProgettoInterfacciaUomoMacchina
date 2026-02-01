@@ -115,36 +115,7 @@
 
                 <hr>
 
-                @* --- SEZIONE STORICO STATI --- *@
-                <h5 class="text-center fw-bold text-uppercase mb-4 pt-2" style="letter-spacing: 2px;">
-                    Storico Stati
-                </h5>
-                <div class="timeline-card p-4">
-
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <span class="fw-semibold text-muted small">
-                            @Model.StoricoStati.Count() stati totali
-                        </span>
-
-                    </div>
-
-                    <div class="timeline timeline-collapsed" id="timeline-container">
-                        @foreach (var s in Model.StoricoStati)
-                        {
-                            <div class="timeline-item">
-                                <div class="timeline-icon">
-                                    <i class="fa-solid fa-circle"></i>
-                                </div>
-                                <div class="timeline-content">
-                                    <div class="timeline-time">
-                                        @s.DataCambio.ToLocalTime().ToString("dd/MM/yyyy HH:mm")
-                                    </div>
-                                    <div class="timeline-state">@s.StatoNuovo</div>
-                                </div>
-                            </div>
-                        }
-                    </div>
-                </div>
+              
 
 
 
@@ -196,7 +167,36 @@
                         <button type="submit" class="btn btn-primary">Invia</button>
                     </form>
                 </div>
+                @* --- SEZIONE STORICO STATI --- *@
+                <h5 class="text-center fw-bold text-uppercase mb-4 pt-2" style="letter-spacing: 2px;">
+                    Storico Stati
+                </h5>
+                <div class="timeline-card p-4">
 
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="fw-semibold text-muted small">
+                            @Model.StoricoStati.Count() stati totali
+                        </span>
+
+                    </div>
+
+                    <div class="timeline timeline-collapsed" id="timeline-container">
+                        @foreach (var s in Model.StoricoStati)
+                        {
+                            <div class="timeline-item">
+                                <div class="timeline-icon">
+                                    <i class="fa-solid fa-circle"></i>
+                                </div>
+                                <div class="timeline-content">
+                                    <div class="timeline-time">
+                                        @s.DataCambio.ToLocalTime().ToString("dd/MM/yyyy HH:mm")
+                                    </div>
+                                    <div class="timeline-state">@s.StatoNuovo</div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
 
                 <hr>
                 @* SEZIONE INFORMAZIONI *@

@@ -1,0 +1,152 @@
+﻿@inject IHtmlLocalizer<ProgettoIUM.Web.SharedResource> SharedLocalizer
+@inject Microsoft.Extensions.Options.IOptions<AppSettings> appSettings
+@{
+    Layout = "_LayoutHtml";
+    var version = System.Reflection.Assembly.GetAssembly(typeof(Startup)).GetName().Version;
+    var identity = Context.User.Identity;
+
+    var identitaCorrente = (ProgettoIUM.Web.Areas.IdentitaViewModel)ViewData[ProgettoIUM.Web.Areas.IdentitaViewModel.VIEWDATA_IDENTITACORRENTE_KEY];
+}
+@section metas {
+    @RenderSection("metas", false)
+}
+@section styles {
+    @RenderSection("styles", false)
+}
+<div id="pageId" class="onit-page">
+    <div class="onit-page-sticky-top" id="onit-page-sticky-top">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-white py-2">
+            <div class="container-fluid">
+
+                <div class="row w-100 align-items-center">
+
+                    <!-- About e Privacy solo desktop -->
+                    <div class="col-4 d-none d-lg-flex align-items-center gap-5">
+                        <a class="nav-link p-0 px-5 fw-medium small text-black"
+                           asp-controller="Home" asp-action="Index">About</a>
+
+                        <a class="nav-link p-0 fw-medium small text-black"
+                           asp-controller="Home" asp-action="Privacy">Privacy</a>
+                    </div>
+
+                    <!-- Logo al centro -->
+                    <div class="col-4 col-lg-4 text-center">
+                        <a class="navbar-brand m-0" href="/" id="logo">
+                            <img src="~/images/app-logo.png" style="height:50px" alt="SEC-K-URE Systems" />
+                        </a>
+                    </div>
+
+   
+                    <div class="col-4 col-lg-4 d-flex justify-content-end align-items-center gap-3">
+                        <a asp-controller="Home" asp-action="Index"
+                           class="d-flex align-items-center fw-bold text-dark"
+                           style="text-decoration: none; padding: 10px 20px;">
+                            Home &nbsp; <i class="fa-solid fa-door-open me-2 fa-2x"></i>
+                        </a>
+
+
+                        <button class="navbar-toggler text-dark border-0"
+                                type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#navbarSupportedContent">
+                            <i class="fa-solid fa-bars"></i>
+                        </button>
+                    </div>
+
+                </div>
+
+
+                <!-- MENU HAMBURGER -->
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <!-- About e Privacy anche nel menu hamburger -->
+                        <li class="nav-item d-lg-none">
+                            <a class="nav-link text-black" asp-controller="Home" asp-action="Index">About</a>
+                        </li>
+                        <li class="nav-item d-lg-none">
+                            <a class="nav-link text-black" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </nav>
+
+        @RenderSection("pageTitle", false)
+    </div>
+
+    @RenderSection("pageSubtitle", false)
+    @RenderBody()
+
+    <div class="modal fade" id="confirmLogoutModal" tabindex="-1" aria-labelledby="confirmLogoutModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg" style="border-radius: 1.2rem;">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title fw-bold" id="confirmLogoutModalLabel">Conferma</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center py-4">
+                    <div class="mb-3">
+                        <i class="fa-solid fa-circle-exclamation text-primary" style="font-size: 3.5rem;"></i>
+                    </div>
+                    <h4 class="fw-bold">Stai uscendo...</h4>
+                    <p class="text-muted">Sei sicuro di voler terminare la sessione di lavoro?</p>
+                </div>
+                <div class="modal-footer border-0 justify-content-center pb-4">
+                    <button type="button" class="btn btn-light px-4 border fw-bold" data-bs-dismiss="modal">Annulla</button>
+                    <button type="button" class="btn btn-secondary px-4  fw-bold shadow-sm"
+                            onclick="document.getElementById('logoutFormLayout').submit();">
+                        Sì, effettua Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="onit-footer mt-auto py-4">
+    <div class="container text-center">
+        <small class="text-muted">
+            © @DateTime.Now.Year - Manuel Ragazzini - Mactar Ibrahima Seck AA 2025/2026
+        </small>
+    </div>
+</footer>
+
+<style>
+    .onit-page {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .onit-footer {
+        background: #DEE2E6;
+        border-top: 1px solid #DEE2E6;
+    }
+
+    /* Assicurati che la navbar occupi 100% su mobile */
+    .navbar {
+        width: 100%;
+    }
+</style>
+
+
+@section googlehead {
+    @*<script async src="https://www.googletagmanager.com/gtag/js?id=UA-"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'UA-', { 'anonymize_ip': true });    // Ricordarsi di anonimizzare per fare ricadere il cookie tra quelli tecnici ed evitare l'obbligo del banner
+    </script>*@
+}
+@section scripts {
+    <script type="text/javascript">
+
+
+        @this.RenderAlertsWithToastify()
+    </script>
+
+    @RenderSection("scripts", false)
+}
+

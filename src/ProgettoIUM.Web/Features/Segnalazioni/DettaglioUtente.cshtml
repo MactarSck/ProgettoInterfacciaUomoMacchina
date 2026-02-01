@@ -1,5 +1,8 @@
 ﻿@model ProgettoIUM.Web.Features.Segnalazioni.EditViewModel
 
+@{
+    Layout = "_LayoutUser";
+}
 
 @section pageTitle {
     @{
@@ -11,14 +14,7 @@
             @ViewData["Title"]
         </div>
 
-        <div class="ms-auto d-flex align-items-center gap-3">
-            <a asp-action="Index"
-               asp-controller="Home"
-               title="Torna alla dashboard principale"
-               style="color: black;">
-                <i class="fa-solid fa-door-open me-2 fa-2x"></i>
-            </a>
-        </div>
+  
 
     </nav>
 
@@ -134,7 +130,7 @@
         <div class="position-relative d-inline-block">
             <button id="btnChat" class="btn btn-primary btn-lg px-5 py-3 shadow  fw-bold"
                     type="button" data-bs-toggle="offcanvas" data-bs-target="#chatOffcanvas" aria-controls="chatOffcanvas">
-                <i class="fa-solid fa-comments me-2"></i> Apri Chat con il Gestore
+                <i class="fa-solid fa-comments me-2"></i>Chat con il Gestore
             </button>
 
             <span id="chatBadge" class="position-absolute top-0 start-100 translate-middle badge  "
@@ -644,6 +640,8 @@
         }
     });
 </script>
+
+
 
 
 
