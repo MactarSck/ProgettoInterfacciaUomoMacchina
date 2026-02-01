@@ -46,6 +46,13 @@ namespace ProgettoIUM.Web
             {
                 options.LoginPath = "/Login/Login";
                 options.LogoutPath = "/Login/Logout";
+                options.ExpireTimeSpan = TimeSpan.FromHours(2); 
+                options.SlidingExpiration = true;               
+
+
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+                options.Cookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.Lax;
             });
 
             var builder = services.AddMvc()
@@ -98,13 +105,7 @@ namespace ProgettoIUM.Web
 
             app.UseStatusCodePagesWithReExecute("/Error/{0}");
 
-            app.Use(async (context, next) =>
-            {
-                context.Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
-                context.Response.Headers["Pragma"] = "no-cache";
-                context.Response.Headers["Expires"] = "0";
-                await next();
-            });
+           
 
 
             // Localization support if you want to

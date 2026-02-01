@@ -174,13 +174,14 @@ namespace ProgettoIUM.Web.Features.Home
                 });
 
                 TempData["SuccessMessage"] = "Messaggio inviato con successo!";
+                TempData["RiapriChat"] = true;
             }
             catch (Exception ex)
             {
                 TempData["ErrorMessage"] = "Errore nell'invio del messaggio: " + ex.Message;
             }
 
-            // Redirect alla stessa pagina usando ID invece del token
+            
             return RedirectToAction("DettaglioUtente", new { id = segnalazioneId });
         }
 
@@ -200,6 +201,22 @@ namespace ProgettoIUM.Web.Features.Home
         public virtual IActionResult Privacy()
         {
             return View();
+        }
+
+        [HttpGet]
+        public virtual IActionResult GetMessaggi(Guid segnalazioneId)
+        {
+            var messaggi = _dbContext.Comunicazioni
+                .Where(m => m.SegnalazioneId == segnalazioneId)
+                .OrderBy(m => m.DataInvio)
+                .Select(m => new {
+                    testo = m.Testo,
+                    isOperatore = m.IsOperatore,
+                    data = m.DataInvio.ToString("HH:mm"),
+                    giorno = m.DataInvio.ToString("dddd dd MMMM yyyy")
+                }).ToList();
+
+            return Json(messaggi);
         }
 
 

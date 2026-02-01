@@ -158,17 +158,27 @@
                         <small class="text-muted">Utilizza questo spazio per fornire ulteriori dettagli all'utente</small>
                     </div>
 
+                    <!-- Pulsante Aggiorna chat centrato -->
+                    <div class="text-center mb-2">
+                        <button type="button" class="btn btn-secondary btn-sm" onclick="location.reload();">Aggiorna chat</button>
+                    </div>
+
+                    <!-- Box chat -->
                     <div id="chat-box" class="mx-auto bg-white border rounded-4 p-4 shadow-sm text-start"
-                         style="max-width: 850px; min-height: 200px; overflow-y: auto; border-style: dashed !important;">
+                         style="max-width: 850px; min-height: 200px; overflow-y: auto; border-style: dashed !important; border-left: 2px solid #ccc; border-right: 2px solid #ccc;">
                         @if (Model.ChatMessaggi != null && Model.ChatMessaggi.Any())
                         {
                             foreach (var c in Model.ChatMessaggi.OrderBy(m => m.DataInvio))
                             {
-                                <div class="mb-2 d-flex @(c.IsOperatore ? "justify-content-end" : "justify-content-start")">
-                                    <div class="p-2 rounded-3 @(c.IsOperatore ? "bg-primary text-white" : "bg-light text-dark")" style="max-width: 70%;">
-                                        <small>@c.DataInvio.ToLocalTime().ToString("dd/MM/yyyy HH:mm")</small><br />
+                                <div class="mb-3 d-flex flex-column @(c.IsOperatore ? "align-items-end" : "align-items-start")">
+                                    <div class="p-2 rounded-3 @(c.IsOperatore ? "bg-primary text-white" : "bg-light text-dark")"
+                                         style="max-width: 70%; border: 1px solid #ccc;">
                                         <span>@c.Testo</span>
                                     </div>
+                                    <!-- Orario sotto il rettangolo, più piccolo -->
+                                    <small class="text-muted mt-1 @(c.IsOperatore ? "text-end" : "text-start")" style="font-size: 0.7rem;">
+                                        @c.DataInvio.ToLocalTime().ToString("dd/MM/yyyy HH:mm")
+                                    </small>
                                 </div>
                             }
                         }
@@ -178,13 +188,15 @@
                         }
                     </div>
 
-                    <form method="post" asp-action="AddMessage" class="mt-3 d-flex">
+                    <!-- Form invio messaggio -->
+                    <form method="post" asp-action="AddMessage" class="mt-3 d-flex justify-content-end">
                         @Html.AntiForgeryToken()
                         <input type="hidden" name="segnalazioneId" value="@Model.Id" />
-                        <input type="text" name="testo" id="chat-testo" class="form-control me-2" placeholder="Scrivi un messaggio..." required />
+                        <input type="text" name="testo" id="chat-testo" class="form-control me-2" placeholder="Scrivi un messaggio..." required style="max-width: 70%;" />
                         <button type="submit" class="btn btn-primary">Invia</button>
                     </form>
                 </div>
+
 
                 <hr>
                 @* SEZIONE INFORMAZIONI *@
