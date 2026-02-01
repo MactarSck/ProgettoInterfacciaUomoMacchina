@@ -132,15 +132,18 @@ namespace ProgettoIUM.Services.Shared
             // 1. FILTRO GENERALE
             if (!string.IsNullOrWhiteSpace(qry.Filter))
             {
-                var filter = qry.Filter.Trim();
+                var filter = qry.Filter.Trim().ToLower(); // minuscolo
+
                 queryable = queryable.Where(x =>
-                    x.Categoria.Contains(filter, StringComparison.OrdinalIgnoreCase) ||
-                    x.Luogo.Contains(filter, StringComparison.OrdinalIgnoreCase) ||
-                    x.StatoAttuale.Contains(filter, StringComparison.OrdinalIgnoreCase) ||
-                    x.Priorità.Contains(filter, StringComparison.OrdinalIgnoreCase) ||
-                    x.Esito.Contains(filter, StringComparison.OrdinalIgnoreCase)
+                    (x.Categoria != null && x.Categoria.Contains(filter, StringComparison.OrdinalIgnoreCase)) ||
+                    (x.Luogo != null && x.Luogo.Contains(filter, StringComparison.OrdinalIgnoreCase)) ||
+                    (x.StatoAttuale != null && x.StatoAttuale.Contains(filter, StringComparison.OrdinalIgnoreCase)) ||
+                    (x.Priorità != null && x.Priorità.Contains(filter, StringComparison.OrdinalIgnoreCase)) ||
+                    (x.Esito != null && x.Esito.Contains(filter, StringComparison.OrdinalIgnoreCase)) ||
+                    x.Id.ToString("N").Substring(0, 8).ToLower() == filter // "N" rimuove i trattini dal GUID
                 );
             }
+
 
             // 2. FILTRI SPECIFICI
             if (qry.Dal.HasValue)
