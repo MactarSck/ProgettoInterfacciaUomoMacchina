@@ -142,7 +142,7 @@ namespace ProgettoIUM.Web.Features.Compilazione
 
         private string GenerateCodiceUnivoco()
         {
-            return $"SK-{DateTime.Now.Year}-{Guid.NewGuid().ToString().Substring(0, 4).ToUpper()}";
+            return $"SK-{Guid.NewGuid().ToString().Substring(0, 4).ToUpper()}-{Guid.NewGuid().ToString().Substring(0, 4).ToUpper()}";
         }
     }
 }
