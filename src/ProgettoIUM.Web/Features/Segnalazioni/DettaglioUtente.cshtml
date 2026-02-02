@@ -416,14 +416,6 @@
 
 </style>
 
-
-
-<script>
-    history.pushState(null, null, location.href);
-    window.onpopstate = function () {
-        location.replace('/Home/Index');
-    };
-</script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         var offcanvasElement = document.getElementById('chatOffcanvas');
@@ -550,44 +542,6 @@
             });
         }
 
-    });
-</script>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        var chatBadge = document.getElementById('chatBadge');
-        var btnChat = document.getElementById('btnChat');
-        var segnalazioneId = "@Model.Id";
-
-        if (!chatBadge) return;
-
-       
-        function checkNewMessages() {
-            fetch(`/Home/GetMessaggi?segnalazioneId=${segnalazioneId}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data && data.length > 0) {
-                        chatBadge.style.display = 'inline-block';
-                    } else {
-                        chatBadge.style.display = 'none';
-                    }
-                })
-                .catch(err => console.error(err));
-        }
-
-
-        checkNewMessages();
-
-  
-        setInterval(checkNewMessages, 30000); 
-
-
-        var offcanvasElement = document.getElementById('chatOffcanvas');
-        if (offcanvasElement) {
-            offcanvasElement.addEventListener('shown.bs.offcanvas', function () {
-                chatBadge.style.display = 'none';
-            });
-        }
     });
 </script>
 <script>
