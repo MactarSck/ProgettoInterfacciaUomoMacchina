@@ -72,8 +72,9 @@
             <input type="hidden" asp-for="Reparto" />
             <input type="hidden" asp-for="Descrizione" />
             <input type="hidden" asp-for="DataInvio" />
-            <input type="hidden" asp-for="NomeFileGiaCaricato" />
-            <input type="hidden" asp-for="PathFileGiaCaricato" />
+            <input type="hidden" name="NomeFileGiaCaricato" value="@Model.NomeFileGiaCaricato" />
+            <input type="hidden" name="PathFileGiaCaricato" value="@Model.PathFileGiaCaricato" />
+
 
             <button type="submit" class="btn btn-primary btn-lg custom-btn-large">
                 INVIA SEGNALAZIONE

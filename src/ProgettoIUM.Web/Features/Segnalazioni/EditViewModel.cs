@@ -34,6 +34,10 @@ namespace ProgettoIUM.Web.Features.Segnalazioni
         public string Priorità { get; set; }
         public string? NomeFile { get; set; }
         public string? PathFile { get; set; }
+
+        public string? NomeFileGiaCaricato => NomeFile;
+        public string? PathFileGiaCaricato => PathFile;
+
         [Display(Name = "Esito")]
         public string? Esito { get; set; }
 

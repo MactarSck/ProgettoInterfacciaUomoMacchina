@@ -134,28 +134,7 @@
         }
     };
 
-        var formSubmitting = false;
-
-        document.querySelector("form").addEventListener("submit", function () {
-            formSubmitting = true;
-        });
-
-        document.querySelector("a[href='/']").addEventListener("click", function (e) {
-            e.preventDefault();
-            var leaveModal = new bootstrap.Modal(document.getElementById('leaveModal'));
-            leaveModal.show();
-
-            document.getElementById('confirmLeave').onclick = function () {
-                window.location.href = "/";
-            };
-        });
-
-        window.addEventListener("beforeunload", function (e) {
-            if (!formSubmitting) {
-                e.preventDefault();
-                e.returnValue = "";
-            }
-        });
+        
     </script>
 }
 

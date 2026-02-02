@@ -1,4 +1,4 @@
-//#hash:flpN1QWs9sg=
+//#hash:r9ofhld0zGY=
 declare module Features.Segnalazioni.Server {
 	interface editViewModel {
 		id: any;
@@ -12,6 +12,8 @@ declare module Features.Segnalazioni.Server {
 		priorità: string;
 		nomeFile: string;
 		pathFile: string;
+		nomeFileGiaCaricato: string;
+		pathFileGiaCaricato: string;
 		esito: string;
 		dataRisoluzionePrevista?: Date;
 		storicoStati: server.storicoStato[];
